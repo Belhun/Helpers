@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Helpers</name>
+  <author>Belhun</author>
+  <packageId>belhun.Helpers</packageId>
+  <description>
+  This mod creates a new job, Helper, This jobs allows pawns to help other pawns with their work. 
+  Makeing crafting, Cooking and other jobs go faster, and the more they help the better they get at working in a team.
+  </description>
+  <supportedVersions>
+    <li>1.5</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+    </li>
+  </modDependencies>
+
+</ModMetaData>

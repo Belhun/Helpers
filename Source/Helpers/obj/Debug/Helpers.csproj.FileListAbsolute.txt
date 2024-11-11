@@ -1,0 +1,4 @@
+D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\Source\Helpers\obj\Debug\Helpers.csproj.AssemblyReference.cache
+D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\Source\Helpers\obj\Debug\Helpers.csproj.CoreCompileInputs.cache
+D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\1.5\Assemblies\Helpers.dll
+D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\Source\Helpers\obj\Debug\Helpers.dll
