@@ -51,7 +51,7 @@ namespace Helpers
                 Action action = () =>
                 {
                     // Create the Helping job targeting the selected pawn
-                    Log.Message($"Selection: Helper Pawn: {pawn.Name}, Helped Pawn: {targetPawn.Name}");
+                    //Log.Message($"Selection: Helper Pawn: {pawn.Name}, Helped Pawn: {targetPawn.Name}");
                     Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("Helping"), targetPawn);
                     pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc); // Start the job
 
@@ -62,4 +62,16 @@ namespace Helpers
             }
         }
     }
+
+    [HarmonyPatch(typeof(Toils_Recipe), "DoRecipeWork")]
+    public static class DoRecipeWorkOverridePatch
+    {
+        public static bool Prefix(ref Toil __result)
+        {
+            // Replace the original DoRecipeWork with the custom DoRecipeWork_Helper
+            __result = Helpers.CustomToils_Recipe.DoRecipeWork_Helper();
+            return false; // Skip the original method
+        }
+    }
+
 }

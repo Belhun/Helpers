@@ -4,5 +4,6 @@
     <defName>Helping</defName>
     <driverClass>Helpers.JobDriver_Helping</driverClass> 
     <reportString>Assisting TargetA.</reportString>
+    <label>Helping</label> 
   </JobDef>
 </Defs>
