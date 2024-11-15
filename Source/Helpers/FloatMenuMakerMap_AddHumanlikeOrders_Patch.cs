@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -34,31 +35,70 @@ namespace Helpers
             // If no pawn is found at the clicked cell, search a 3x3 area around it
             if (targetPawn == null)
             {
-                foreach (IntVec3 cell in GenAdj.CellsAdjacent8Way(centerCell, Rot4.North, new IntVec2(1, 1)))
+                foreach (IntVec3 cell in GenAdj.CellsAdjacent8Way(centerCell, Rot4.North, new IntVec2(3, 3)))
                 {
                     targetPawn = cell.GetFirstPawn(pawn.Map);
                     if (targetPawn != null && targetPawn != pawn) break; // Break if a valid pawn is found
                 }
             }
 
-            // Ensure the target pawn is valid and not the same as the helper pawn
-            if (targetPawn != null && pawn != targetPawn && pawn.IsColonistPlayerControlled)
+            // Log whether a valid target pawn was found
+            if (targetPawn != null)
             {
-                // Define the label for the menu option
-                string label = "Help " + targetPawn.Name.ToStringShort;
+                
+                //Log.Message($"[Helpers Mod] Target pawn found: {targetPawn.Name}");
+            }
+            else
+            {
+                //Log.Message("[Helpers Mod] No valid target pawn found in the clicked area.");
+                return; // Exit if no valid target pawn
+            }
 
-                // Define the action when the option is selected
-                Action action = () =>
+            // Get selected pawns, excluding the right-clicked target pawn
+            var selectedPawns = Find.Selector.SelectedObjects
+                                     .OfType<Pawn>()
+                                     .Where(p => p != targetPawn && p.IsColonistPlayerControlled)
+                                     .ToList();
+
+            // Log the selected pawns
+            Log.Message($"[Helpers Mod] Selected pawns for help action: {string.Join(", ", selectedPawns.Select(p => p.Name.ToStringShort))}");
+
+            // If no valid helper pawns are selected, return
+            if (selectedPawns.Count == 0)
+            {
+                //Log.Message("[Helpers Mod] No valid helper pawns selected.");
+                return;
+            }
+
+            // Define the label for the menu option based on how many pawns will help
+            string label = selectedPawns.Count > 1
+                ? $"Help {targetPawn.Name.ToStringShort} with {selectedPawns.Count} pawns"
+                : $"Help {targetPawn.Name.ToStringShort}";
+
+            Log.Message($"[Helpers Mod] Creating menu option with label: {label}");
+
+            // Define the action when the option is selected
+            Action action = () =>
+            {
+                foreach (var helperPawn in selectedPawns)
                 {
-                    // Create the Helping job targeting the selected pawn
-                    //Log.Message($"Selection: Helper Pawn: {pawn.Name}, Helped Pawn: {targetPawn.Name}");
+                    // Create and assign the Helping job to each selected pawn
                     Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("Helping"), targetPawn);
-                    pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc); // Start the job
+                    helperPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc); // Start the job
+                    Log.Message($"[Helpers Mod] {helperPawn.Name} is now helping {targetPawn.Name}.");
+                }
+            };
 
-                };
-
-                // Create and add the new menu option
-                opts.Add(new FloatMenuOption(label, action));
+            // Create and add the new menu option, ensuring it's not null
+            FloatMenuOption helpOption = new FloatMenuOption(label, action);
+            if (helpOption != null)
+            {
+                opts.Add(helpOption);
+                Log.Message($"[Helpers Mod] Successfully added 'Help' option to the float menu for {targetPawn.Name}.");
+            }
+            else
+            {
+                Log.Message("[Helpers Mod] Failed to create a 'Help' FloatMenuOption.");
             }
         }
     }
@@ -70,8 +110,8 @@ namespace Helpers
         {
             // Replace the original DoRecipeWork with the custom DoRecipeWork_Helper
             __result = Helpers.CustomToils_Recipe.DoRecipeWork_Helper();
+            Log.Message("[Helpers Mod] Replaced DoRecipeWork with custom DoRecipeWork_Helper.");
             return false; // Skip the original method
         }
     }
-
 }

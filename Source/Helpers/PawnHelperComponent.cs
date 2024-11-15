@@ -4,6 +4,10 @@ using Verse;
 
 namespace Helpers
 {
+    public static class HelpersDebug
+    {
+        public static bool EnableLogging = true; // Set to false to disable logging
+    }
     [HarmonyPatch(typeof(Pawn))]
     [HarmonyPatch("SpawnSetup")]
     public static class Pawn_SpawnSetup_Patch
