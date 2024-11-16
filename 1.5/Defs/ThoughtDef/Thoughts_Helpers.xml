@@ -1,14 +1,13 @@
 <Defs>
   <ThoughtDef>
     <defName>WorkingWithRival</defName>
-    <label>working with a rival</label>
-    <description>I had to work alongside my rival. Not a great day.</description>
     <durationDays>0.5</durationDays>
-    <thoughtClass>Thought_Memory</thoughtClass>
     <stackLimit>1</stackLimit>
+    <thoughtClass>Thought_Memory</thoughtClass>
     <stages>
       <li>
         <label>working with a rival</label>
+        <description>Being around my rival while working made everything feel worse.</description>
         <baseMoodEffect>-10</baseMoodEffect>
       </li>
     </stages>

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomToils_Recipe.cs" />
+    <Compile Include="DebugHelpers.cs" />
     <Compile Include="JobDriver_Helping.cs" />
     <Compile Include="HelpersInitializer.cs" />
     <Compile Include="PawnHelperComponent.cs" />

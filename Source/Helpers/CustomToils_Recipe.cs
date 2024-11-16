@@ -6,22 +6,21 @@ using UnityEngine;
 
 namespace Helpers
 {
-    [DefOf]
-    public static class HelpersDefOf
-    {
-        // Traits
-        public static TraitDef Ugly;
-        public static TraitDef Beautiful;
 
-        // Relations
-        public static PawnRelationDef Rival;
+    // TODO Rival Dose not work, Needs to be fixed
 
-        // Ensure all defs are resolved
-        static HelpersDefOf()
-        {
-            DefOfHelper.EnsureInitializedInCtor(typeof(HelpersDefOf));
-        }
-    }
+    //[DefOf]
+    //public static class HelpersDefOf
+    //{
+    //    // Relations
+    //    public static PawnRelationDef Rival;
+
+    //    // Ensure all defs are resolved
+    //    static HelpersDefOf()
+    //    {
+    //        DefOfHelper.EnsureInitializedInCtor(typeof(HelpersDefOf));
+    //    }
+    //}
 
     public static class CustomToils_Recipe
     {
@@ -172,7 +171,97 @@ namespace Helpers
 
         private static void ApplySocialThoughts(Pawn helper, Pawn helped, List<Pawn> currentHelpers)
         {
-            // Add your ApplySocialThoughts logic here, replacing `DebugHelpers.Log` with `DebugHelpers.CTRLog`
+            // TODO Rival Dose not work, Needs to be fixed
+            
+            //// Check Rivalry between helper and helped
+            //if (helper.relations != null && helper.relations.DirectRelationExists(HelpersDefOf.Rival, helped))
+            //{
+            //    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
+            //    helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
+            //    DebugHelpers.CTRLog($"Rivalry detected between {helper.Name} and {helped.Name}");
+            //}
+
+            //// Check Rivalry among helpers
+            //foreach (Pawn otherHelper in currentHelpers)
+            //{
+            //    if (helper == otherHelper) continue;
+            //    if (helper.relations != null && helper.relations.DirectRelationExists(HelpersDefOf.Rival, otherHelper))
+            //    {
+            //        helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
+            //        otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
+            //        DebugHelpers.CTRLog($"Rivalry detected between {helper.Name} and {otherHelper.Name}");
+            //    }
+            //}
+
+            // Check Beauty for helper and helped
+            int? helperBeautyDegree = PawnBeautyChecker.GetBeautyDegree(helper);
+            int? helpedBeautyDegree = PawnBeautyChecker.GetBeautyDegree(helped);
+
+            if (helperBeautyDegree != null)
+            {
+                if (helperBeautyDegree == -1 || helperBeautyDegree == -2)
+                {
+                    helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
+                    DebugHelpers.CTRLog($"{helper.Name} is perceived as ugly by {helped.Name}");
+                }
+                else if (helperBeautyDegree == 1 || helperBeautyDegree == 2)
+                {
+                    helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
+                    DebugHelpers.CTRLog($"{helper.Name} is perceived as beautiful by {helped.Name}");
+                }
+            }
+
+            if (helpedBeautyDegree != null)
+            {
+                if (helpedBeautyDegree == -1 || helpedBeautyDegree == -2)
+                {
+                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
+                    DebugHelpers.CTRLog($"{helped.Name} is perceived as ugly by {helper.Name}");
+                }
+                else if (helpedBeautyDegree == 1 || helpedBeautyDegree == 2)
+                {
+                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
+                    DebugHelpers.CTRLog($"{helped.Name} is perceived as beautiful by {helper.Name}");
+                }
+            }
+
+            foreach (Pawn otherHelper in currentHelpers)
+            {
+                if (helper == otherHelper) continue;
+
+                int? otherHelperBeautyDegree = PawnBeautyChecker.GetBeautyDegree(otherHelper);
+                if (otherHelperBeautyDegree == null) continue;
+
+                if (otherHelperBeautyDegree == -1 || otherHelperBeautyDegree == -2)
+                {
+                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
+                    DebugHelpers.CTRLog($"{otherHelper.Name} is perceived as ugly by {helper.Name}");
+                }
+                else if (otherHelperBeautyDegree == 1 || otherHelperBeautyDegree == 2)
+                {
+                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
+                    DebugHelpers.CTRLog($"{otherHelper.Name} is perceived as beautiful by {helper.Name}");
+                }
+            }
+
+            // Check Lovers
+            if (helper.relations != null && helper.relations.DirectRelationExists(PawnRelationDefOf.Lover, helped))
+            {
+                helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
+                helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
+                DebugHelpers.CTRLog($"{helper.Name} and {helped.Name} are lovers and gain 'WorkingWithLover'");
+            }
+
+            foreach (Pawn otherHelper in currentHelpers)
+            {
+                if (helper == otherHelper) continue;
+                if (helper.relations != null && helper.relations.DirectRelationExists(PawnRelationDefOf.Lover, otherHelper))
+                {
+                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
+                    otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
+                    DebugHelpers.CTRLog($"{helper.Name} and {otherHelper.Name} are lovers and gain 'WorkingWithLover'");
+                }
+            }
         }
     }
 
@@ -213,4 +302,4 @@ namespace Helpers
 
 
 }
-}
+

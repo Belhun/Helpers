@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Verse;
+﻿using Verse;
 
 namespace Helpers
 {
     public static class DebugHelpers
     {
-        public static bool OverallLogging = true; // Enable/Disable all logging globally
+        public static bool OverallLogging = false; // Enable/Disable all logging globally
         public static bool CustomToils_Recipe_Logging = true; // Enable/Disable logging for CustomToils_Recipe
         public static bool PawnBeautyChecker_Logging = true; // Enable/Disable logging for PawnBeautyChecker
-        public static bool Pawn_SpawnSetup_Patch_Logging = true; // Enable/Disable logging for Pawn_SpawnSetup_Patch
-        public static bool PawnHelperComponent_Logging = true; // Enable/Disable logging for PawnHelperComponent
-        public static bool CompProperties_PawnHelper_Logging = true; // Enable/Disable logging for CompProperties_PawnHelper
-        public static bool PawnHelperExtensions_Logging = true; // Enable/Disable logging for PawnHelperExtensions
-        public static bool FloatMenuMakerMap_Logging = true; // Enable/Disable logging for FloatMenuMakerMap
+        public static bool Pawn_SpawnSetup_Patch_Logging = false; // Enable/Disable logging for Pawn_SpawnSetup_Patch
+        public static bool PawnHelperComponent_Logging = false; // Enable/Disable logging for PawnHelperComponent
+        public static bool CompProperties_PawnHelper_Logging = false; // Enable/Disable logging for CompProperties_PawnHelper
+        public static bool PawnHelperExtensions_Logging = false; // Enable/Disable logging for PawnHelperExtensions
+        public static bool FloatMenuMakerMap_Logging = false; // Enable/Disable logging for FloatMenuMakerMap
         public static bool DoRecipeWorkOverride_Logging = true; // Enable/Disable logging for DoRecipeWorkOverridePatch
-        public static bool JobDriver_Helping_Logging = true; // Enable/Disable logging for JobDriver_Helping
+        public static bool JobDriver_Helping_Logging = false; // Enable/Disable logging for JobDriver_Helping
 
         public static void CTRLog(string message)
         {
