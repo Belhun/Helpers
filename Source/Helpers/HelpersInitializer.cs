@@ -20,8 +20,12 @@ namespace Helpers
             // Initialize Harmony
             var harmony = new Harmony("Belhun.helpersmod");
             harmony.PatchAll();
+
+            // Testing for Missing Defs
+            Log.Message("[Helpers Mod] Testing for missing defs...");
         }
     }
+
 
     [HarmonyPatch(typeof(FloatMenuMakerMap), "AddHumanlikeOrders")]
     public static class FloatMenuMakerMap_AddHumanlikeOrders_Patch

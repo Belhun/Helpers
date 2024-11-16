@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="CustomToils_Recipe.cs" />
     <Compile Include="JobDriver_Helping.cs" />
-    <Compile Include="FloatMenuMakerMap_AddHumanlikeOrders_Patch.cs" />
+    <Compile Include="HelpersInitializer.cs" />
     <Compile Include="PawnHelperComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SkillDefOf.cs" />

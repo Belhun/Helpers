@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RimWorld;
 using System.Collections.Generic;
 using Verse;
 
@@ -90,4 +91,35 @@ namespace Helpers
             Log.Message("[Helpers Mod] CompProperties_PawnHelper initialized.");
         }
     }
+    public static class PawnBeautyChecker
+    {
+        public static int? GetBeautyDegree(Pawn pawn)
+        {
+            // Check if the pawn has the Beauty trait
+            TraitDef beautyTrait = TraitDef.Named("Beauty");
+            if (pawn.story?.traits.HasTrait(beautyTrait) == true)
+            {
+                // Get the degree of the Beauty trait
+                int degree = pawn.story.traits.DegreeOfTrait(beautyTrait);
+                return degree;
+            }
+
+            // Return null if the pawn does not have the Beauty trait
+            return null;
+        }
+
+        public static void LogBeautyTrait(Pawn pawn)
+        {
+            int? beautyDegree = GetBeautyDegree(pawn);
+            if (beautyDegree.HasValue)
+            {
+                Log.Message($"{pawn.Name} has Beauty trait with degree: {beautyDegree.Value}");
+            }
+            else
+            {
+                Log.Message($"{pawn.Name} does not have the Beauty trait.");
+            }
+        }
+    }
+
 }

@@ -1,0 +1,58 @@
+<Defs>
+  <ThoughtDef>
+    <defName>WorkingWithRival</defName>
+    <label>working with a rival</label>
+    <description>I had to work alongside my rival. Not a great day.</description>
+    <durationDays>0.5</durationDays>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>working with a rival</label>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+    <ThoughtDef>
+        <defName>WorkingWithUgly</defName>
+        <durationDays>0.5</durationDays>
+        <stackLimit>1</stackLimit>
+        <thoughtClass>Thought_Memory</thoughtClass>
+        <stages>
+            <li>
+            <label>Worked with an ugly person</label>
+            <description>Sharing tasks with someone so unpleasant to look at is annoying.</description>
+            <baseMoodEffect>-5</baseMoodEffect>
+            </li>
+        </stages>
+    </ThoughtDef>
+
+    <ThoughtDef>
+        <defName>WorkingWithBeautiful</defName>
+        <durationDays>0.5</durationDays>
+        <stackLimit>1</stackLimit>
+        <thoughtClass>Thought_Memory</thoughtClass>
+        <stages>
+            <li>
+            <label>Worked with a beautiful person</label>
+            <description>It was a pleasure to work alongside someone so captivating.</description>
+            <baseMoodEffect>5</baseMoodEffect>
+            </li>
+        </stages>
+    </ThoughtDef>
+
+    <ThoughtDef>
+        <defName>WorkingWithLover</defName>
+        <durationDays>0.5</durationDays>
+        <stackLimit>1</stackLimit>
+        <thoughtClass>Thought_Memory</thoughtClass>
+        <stages>
+            <li>
+            <label>Worked with my lover</label>
+            <description>Being close to my lover while working made the task enjoyable.</description>
+            <baseMoodEffect>10</baseMoodEffect>
+            </li>
+        </stages>
+    </ThoughtDef>
+</Defs>
