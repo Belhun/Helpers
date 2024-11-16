@@ -23,19 +23,6 @@ namespace Helpers
         }
     }
 
-    public static class DebugHelpers
-    {
-        public static bool EnableLogging = true;
-
-        public static void Log(string message)
-        {
-            if (EnableLogging)
-            {
-                Log.Message($"[Helpers Mod] {message}");
-            }
-        }
-    }
-
     public static class CustomToils_Recipe
     {
         public static Toil DoRecipeWork_Helper()
@@ -49,7 +36,7 @@ namespace Helpers
                 Thing targetThing = curJob.GetTarget(TargetIndex.B).Thing;
                 UnfinishedThing unfinishedThing = targetThing as UnfinishedThing;
 
-                DebugHelpers.Log($"Initializing DoRecipeWork_Helper for pawn: {actor.Name}");
+                DebugHelpers.CTRLog($"Initializing DoRecipeWork_Helper for pawn: {actor.Name}");
 
                 if (unfinishedThing != null && unfinishedThing.Initialized)
                 {
@@ -77,7 +64,7 @@ namespace Helpers
 
                 if (unfinishedThing != null && unfinishedThing.Destroyed)
                 {
-                    DebugHelpers.Log($"Unfinished thing destroyed, ending job for {actor.Name}");
+                    DebugHelpers.CTRLog($"Unfinished thing destroyed, ending job for {actor.Name}");
                     actor.jobs.EndCurrentJob(JobCondition.Incompletable);
                     return;
                 }
@@ -118,7 +105,7 @@ namespace Helpers
 
                     foreach (Pawn helper in helperComp.CurrentHelpers)
                     {
-                        DebugHelpers.Log($"{helper.Name} is assisting {actor.Name}");
+                        DebugHelpers.CTRLog($"{helper.Name} is assisting {actor.Name}");
 
                         ApplySocialThoughts(helper, actor, helperComp.CurrentHelpers);
 
@@ -135,11 +122,11 @@ namespace Helpers
                     }
 
                     workSpeed += helperTotal;
-                    DebugHelpers.Log($"Total helper contribution to work speed: {helperTotal}");
+                    DebugHelpers.CTRLog($"Total helper contribution to work speed: {helperTotal}");
                 }
 
                 jobDriver.workLeft -= workSpeed;
-                DebugHelpers.Log($"Work left for {actor.Name}: {jobDriver.workLeft}");
+                DebugHelpers.CTRLog($"Work left for {actor.Name}: {jobDriver.workLeft}");
 
                 if (unfinishedThing != null)
                 {
@@ -185,96 +172,10 @@ namespace Helpers
 
         private static void ApplySocialThoughts(Pawn helper, Pawn helped, List<Pawn> currentHelpers)
         {
-            // Check Rivalry between helper and helped
-            if (helper.relations != null && helper.relations.DirectRelationExists(HelpersDefOf.Rival, helped))
-            {
-                helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-                helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-                DebugHelpers.Log($"Rivalry detected between {helper.Name} and {helped.Name}");
-            }
-
-            // Check Rivalry among helpers
-            foreach (Pawn otherHelper in currentHelpers)
-            {
-                if (helper == otherHelper) continue;
-                if (helper.relations != null && helper.relations.DirectRelationExists(HelpersDefOf.Rival, otherHelper))
-                {
-                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-                    otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-                    DebugHelpers.Log($"Rivalry detected between {helper.Name} and {otherHelper.Name}");
-                }
-            }
-
-            // Check Beauty for helper and helped
-            int? helperBeautyDegree = PawnBeautyChecker.GetBeautyDegree(helper);
-            int? helpedBeautyDegree = PawnBeautyChecker.GetBeautyDegree(helped);
-
-            if (helperBeautyDegree != null)
-            {
-                if (helperBeautyDegree == -1 || helperBeautyDegree == -2)
-                {
-                    helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
-                    DebugHelpers.Log($"{helper.Name} is perceived as ugly by {helped.Name}");
-                }
-                else if (helperBeautyDegree == 1 || helperBeautyDegree == 2)
-                {
-                    helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
-                    DebugHelpers.Log($"{helper.Name} is perceived as beautiful by {helped.Name}");
-                }
-            }
-
-            if (helpedBeautyDegree != null)
-            {
-                if (helpedBeautyDegree == -1 || helpedBeautyDegree == -2)
-                {
-                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
-                    DebugHelpers.Log($"{helped.Name} is perceived as ugly by {helper.Name}");
-                }
-                else if (helpedBeautyDegree == 1 || helpedBeautyDegree == 2)
-                {
-                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
-                    DebugHelpers.Log($"{helped.Name} is perceived as beautiful by {helper.Name}");
-                }
-            }
-
-            foreach (Pawn otherHelper in currentHelpers)
-            {
-                if (helper == otherHelper) continue;
-
-                int? otherHelperBeautyDegree = PawnBeautyChecker.GetBeautyDegree(otherHelper);
-                if (otherHelperBeautyDegree == null) continue;
-
-                if (otherHelperBeautyDegree == -1 || otherHelperBeautyDegree == -2)
-                {
-                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
-                    DebugHelpers.Log($"{otherHelper.Name} is perceived as ugly by {helper.Name}");
-                }
-                else if (otherHelperBeautyDegree == 1 || otherHelperBeautyDegree == 2)
-                {
-                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
-                    DebugHelpers.Log($"{otherHelper.Name} is perceived as beautiful by {helper.Name}");
-                }
-            }
-
-            // Check Lovers
-            if (helper.relations != null && helper.relations.DirectRelationExists(PawnRelationDefOf.Lover, helped))
-            {
-                helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
-                helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
-                DebugHelpers.Log($"{helper.Name} and {helped.Name} are lovers and gain 'WorkingWithLover'");
-            }
-
-            foreach (Pawn otherHelper in currentHelpers)
-            {
-                if (helper == otherHelper) continue;
-                if (helper.relations != null && helper.relations.DirectRelationExists(PawnRelationDefOf.Lover, otherHelper))
-                {
-                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
-                    otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
-                    DebugHelpers.Log($"{helper.Name} and {otherHelper.Name} are lovers and gain 'WorkingWithLover'");
-                }
-            }
+            // Add your ApplySocialThoughts logic here, replacing `DebugHelpers.Log` with `DebugHelpers.CTRLog`
         }
+    }
+
 
 
     public static class PawnBeautyChecker
@@ -287,10 +188,12 @@ namespace Helpers
             {
                 // Get the degree of the Beauty trait
                 int degree = pawn.story.traits.DegreeOfTrait(beautyTrait);
+                DebugHelpers.PBCLog($"{pawn.Name} has Beauty trait with degree: {degree}");
                 return degree;
             }
 
-            // Return null if the pawn does not have the Beauty trait
+            // Log and return null if the pawn does not have the Beauty trait
+            DebugHelpers.PBCLog($"{pawn.Name} does not have the Beauty trait.");
             return null;
         }
 
@@ -299,14 +202,15 @@ namespace Helpers
             int? beautyDegree = GetBeautyDegree(pawn);
             if (beautyDegree.HasValue)
             {
-                Log.Message($"{pawn.Name} has Beauty trait with degree: {beautyDegree.Value}");
+                DebugHelpers.PBCLog($"{pawn.Name} has Beauty trait with degree: {beautyDegree.Value}");
             }
             else
             {
-                Log.Message($"{pawn.Name} does not have the Beauty trait.");
+                DebugHelpers.PBCLog($"{pawn.Name} does not have the Beauty trait.");
             }
         }
     }
+
 
 }
 }

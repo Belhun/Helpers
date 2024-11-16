@@ -12,14 +12,14 @@ namespace Helpers
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            Log.Message($"[Helpers Mod] {pawn.Name} is starting to help {TargetPawn.Name}.");
+            DebugHelpers.JDHLog($"{pawn.Name} is starting to help {TargetPawn.Name}.");
 
             // Attach the helper to the target pawn's component
             var targetHelperComp = TargetPawn.GetHelperComponent();
             if (targetHelperComp != null)
             {
                 targetHelperComp.AddHelper(pawn);
-                Log.Message($"[Helpers Mod] {pawn.Name} added as a helper to {TargetPawn.Name}.");
+                DebugHelpers.JDHLog($"{pawn.Name} added as a helper to {TargetPawn.Name}.");
             }
 
             // Fail if the target pawn becomes invalid
@@ -41,7 +41,7 @@ namespace Helpers
                         // Check if target pawn has moved and start a new path if necessary
                         if (TargetPawn.Position != pawn.Position)
                         {
-                            Log.Message($"[Helpers Mod] {pawn.Name} is moving to follow {TargetPawn.Name}.");
+                            DebugHelpers.JDHLog($"{pawn.Name} is moving to follow {TargetPawn.Name}.");
                             pawn.pather.StartPath(TargetPawn, PathEndMode.Touch);
                         }
                     }
@@ -55,7 +55,7 @@ namespace Helpers
                 if (targetHelperComp != null)
                 {
                     targetHelperComp.RemoveHelper(pawn);
-                    Log.Message($"[Helpers Mod] {pawn.Name} has stopped helping {TargetPawn.Name}.");
+                    DebugHelpers.JDHLog($"{pawn.Name} has stopped helping {TargetPawn.Name}.");
                 }
             });
 
@@ -68,4 +68,5 @@ namespace Helpers
             return true;
         }
     }
+
 }
