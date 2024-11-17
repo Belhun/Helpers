@@ -171,27 +171,52 @@ namespace Helpers
 
         private static void ApplySocialThoughts(Pawn helper, Pawn helped, List<Pawn> currentHelpers)
         {
-            // TODO Rival Dose not work, Needs to be fixed
-            
-            //// Check Rivalry between helper and helped
-            //if (helper.relations != null && helper.relations.DirectRelationExists(HelpersDefOf.Rival, helped))
-            //{
-            //    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-            //    helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-            //    DebugHelpers.CTRLog($"Rivalry detected between {helper.Name} and {helped.Name}");
-            //}
+            // Check opinion-based rivalry between helper and helped
+            if (helper.relations != null && helped.relations != null)
+            {
+                int helperOpinion = helper.relations.OpinionOf(helped);
+                int helpedOpinion = helped.relations.OpinionOf(helper);
 
-            //// Check Rivalry among helpers
-            //foreach (Pawn otherHelper in currentHelpers)
-            //{
-            //    if (helper == otherHelper) continue;
-            //    if (helper.relations != null && helper.relations.DirectRelationExists(HelpersDefOf.Rival, otherHelper))
-            //    {
-            //        helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-            //        otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-            //        DebugHelpers.CTRLog($"Rivalry detected between {helper.Name} and {otherHelper.Name}");
-            //    }
-            //}
+                // If the helper dislikes the helped, apply the debuff to the helper
+                if (helperOpinion <= -40)
+                {
+                    helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
+                    DebugHelpers.CTRLog($"{helper.Name} dislikes {helped.Name} (opinion: {helperOpinion}) and gains 'WorkingWithRival'.");
+                }
+
+                // If the helped dislikes the helper, apply the debuff to the helped
+                if (helpedOpinion <= -40)
+                {
+                    helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
+                    DebugHelpers.CTRLog($"{helped.Name} dislikes {helper.Name} (opinion: {helpedOpinion}) and gains 'WorkingWithRival'.");
+                }
+            }
+
+            // Check rivalry among helpers
+            foreach (Pawn otherHelper in currentHelpers)
+            {
+                if (helper == otherHelper) continue; // Skip self-check
+
+                if (helper.relations != null && otherHelper.relations != null)
+                {
+                    int helperOpinion = helper.relations.OpinionOf(otherHelper);
+                    int otherHelperOpinion = otherHelper.relations.OpinionOf(helper);
+
+                    // If the helper dislikes the other helper, apply the debuff to the helper
+                    if (helperOpinion <= -40)
+                    {
+                        helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
+                        DebugHelpers.CTRLog($"{helper.Name} dislikes {otherHelper.Name} (opinion: {helperOpinion}) and gains 'WorkingWithRival'.");
+                    }
+
+                    // If the other helper dislikes the helper, apply the debuff to the other helper
+                    if (otherHelperOpinion <= -40)
+                    {
+                        otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
+                        DebugHelpers.CTRLog($"{otherHelper.Name} dislikes {helper.Name} (opinion: {otherHelperOpinion}) and gains 'WorkingWithRival'.");
+                    }
+                }
+            }
 
             // Check Beauty for helper and helped
             int? helperBeautyDegree = PawnBeautyChecker.GetBeautyDegree(helper);
@@ -263,6 +288,7 @@ namespace Helpers
                 }
             }
         }
+
     }
 
 
