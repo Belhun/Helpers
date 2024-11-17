@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Construction helping.cs" />
     <Compile Include="CustomToils_Recipe.cs" />
     <Compile Include="DebugHelpers.cs" />
     <Compile Include="HelperMechanics.cs" />
