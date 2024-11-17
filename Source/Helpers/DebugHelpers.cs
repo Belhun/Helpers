@@ -1,99 +1,65 @@
-﻿using Verse;
+﻿using System.Collections.Generic;
+using Verse;
 
 namespace Helpers
 {
     public static class DebugHelpers
     {
         public static bool OverallLogging = true; // Enable/Disable all logging globally
-        public static bool CustomToils_Recipe_Logging = true; // Enable/Disable logging for CustomToils_Recipe
-        public static bool Pawn_SpawnSetup_Patch_Logging = false; // Enable/Disable logging for Pawn_SpawnSetup_Patch
-        public static bool PawnHelperComponent_Logging = false; // Enable/Disable logging for PawnHelperComponent
-        public static bool CompProperties_PawnHelper_Logging = false; // Enable/Disable logging for CompProperties_PawnHelper
-        public static bool PawnHelperExtensions_Logging = false; // Enable/Disable logging for PawnHelperExtensions
-        public static bool FloatMenuMakerMap_Logging = false; // Enable/Disable logging for FloatMenuMakerMap
-        public static bool DoRecipeWorkOverride_Logging = false; // Enable/Disable logging for DoRecipeWorkOverridePatch
-        public static bool JobDriver_Helping_Logging = false; // Enable/Disable logging for JobDriver_Helping
-        public static bool HelperSocialMechanics_Logging = true; // Enable/Disable logging for HelperSocialMechanics
-        public static bool HelperMechanics_Logging = true; // Enable/Disable logging for HelperMechanics
 
-
-        public static void CTRLog(string message)
+        // Dictionary to manage logging per class/feature
+        private static readonly Dictionary<string, bool> ClassLoggingFlags = new Dictionary<string, bool>
         {
-            if (OverallLogging && CustomToils_Recipe_Logging)
+            { "CustomToils_Recipe", true },
+            { "Pawn_SpawnSetup_Patch", false },
+            { "PawnHelperComponent", false },
+            { "CompProperties_PawnHelper", false },
+            { "PawnHelperExtensions", false },
+            { "FloatMenuMakerMap", false },
+            { "DoRecipeWorkOverridePatch", false },
+            { "JobDriver_Helping", false },
+            { "HelperSocialMechanics", true },
+            { "HelperMechanics", true }
+        };
+
+        /// <summary>
+        /// Logs a message if logging is enabled for the specified class/feature.
+        /// </summary>
+        /// <param name="className">The name of the class/feature.</param>
+        /// <param name="message">The message to log.</param>
+        public static void DebugLog(string className, string message)
+        {
+            if (OverallLogging && ClassLoggingFlags.TryGetValue(className, out bool isEnabled) && isEnabled)
             {
-                Log.Message($"[Helpers Mod][CustomToils_Recipe] {message}");
+                Verse.Log.Message($"[Helpers Mod][{className}] {message}");
             }
         }
 
-        public static void PSSPLog(string message)
+        /// <summary>
+        /// Dynamically enables or disables logging for a specific class/feature.
+        /// </summary>
+        /// <param name="className">The name of the class/feature.</param>
+        /// <param name="isEnabled">Whether logging should be enabled or disabled.</param>
+        public static void SetLogging(string className, bool isEnabled)
         {
-            if (OverallLogging && Pawn_SpawnSetup_Patch_Logging)
+            if (ClassLoggingFlags.ContainsKey(className))
             {
-                Log.Message($"[Helpers Mod][Pawn_SpawnSetup_Patch] {message}");
+                ClassLoggingFlags[className] = isEnabled;
+            }
+            else
+            {
+                Verse.Log.Warning($"[Helpers Mod] Attempted to set logging for unknown class/feature: {className}");
             }
         }
 
-        public static void PHCLog(string message)
+        /// <summary>
+        /// Lists all class/feature logging statuses for debugging purposes.
+        /// </summary>
+        public static void PrintLoggingStatus()
         {
-            if (OverallLogging && PawnHelperComponent_Logging)
+            foreach (var entry in ClassLoggingFlags)
             {
-                Log.Message($"[Helpers Mod][PawnHelperComponent] {message}");
-            }
-        }
-
-        public static void CPPHLog(string message)
-        {
-            if (OverallLogging && CompProperties_PawnHelper_Logging)
-            {
-                Log.Message($"[Helpers Mod][CompProperties_PawnHelper] {message}");
-            }
-        }
-
-        public static void PHExtLog(string message)
-        {
-            if (OverallLogging && PawnHelperExtensions_Logging)
-            {
-                Log.Message($"[Helpers Mod][PawnHelperExtensions] {message}");
-            }
-        }
-
-        public static void FMMLog(string message)
-        {
-            if (OverallLogging && FloatMenuMakerMap_Logging)
-            {
-                Log.Message($"[Helpers Mod][FloatMenuMakerMap] {message}");
-            }
-        }
-
-        public static void DRWLog(string message)
-        {
-            if (OverallLogging && DoRecipeWorkOverride_Logging)
-            {
-                Log.Message($"[Helpers Mod][DoRecipeWorkOverridePatch] {message}");
-            }
-        }
-
-        public static void JDHLog(string message)
-        {
-            if (OverallLogging && JobDriver_Helping_Logging)
-            {
-                Log.Message($"[Helpers Mod][JobDriver_Helping] {message}");
-            }
-        }
-
-        public static void HSMLog(string message)
-        {
-            if (OverallLogging && HelperSocialMechanics_Logging)
-            {
-                Log.Message($"[Helpers Mod][HelperSocialMechanics] {message}");
-            }
-        }
-
-        public static void HMLog(string message)
-        {
-            if (OverallLogging && HelperMechanics_Logging)
-            {
-                Log.Message($"[Helpers Mod][HelperMechanics] {message}");
+                Verse.Log.Message($"[Helpers Mod] Logging for {entry.Key}: {(entry.Value ? "Enabled" : "Disabled")}");
             }
         }
     }

@@ -31,17 +31,17 @@ namespace Helpers
                 if (helperOpinion >= 40)
                 {
                     helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithFriend"));
-                    DebugHelpers.HSMLog($"{helper.Name} has a positive opinion of {helped.Name} (opinion: {helperOpinion}) and gains 'WorkingWithFriend'.");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helper.Name} has a positive opinion of {helped.Name} (opinion: {helperOpinion}) and gains 'WorkingWithFriend'.");
                 }
 
                 if (helpedOpinion >= 40)
                 {
                     helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithFriend"));
-                    DebugHelpers.HSMLog($"{helped.Name} has a positive opinion of {helper.Name} (opinion: {helpedOpinion}) and gains 'WorkingWithFriend'.");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helped.Name} has a positive opinion of {helper.Name} (opinion: {helpedOpinion}) and gains 'WorkingWithFriend'.");
                 }
             }
         }
-        
+
         /// <summary>
         /// Checks for friendships among the helpers and applies mood buffs where necessary.
         /// </summary>
@@ -59,13 +59,13 @@ namespace Helpers
                     if (helperOpinion >= 40)
                     {
                         helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithFriend"));
-                        DebugHelpers.HSMLog($"{helper.Name} has a positive opinion of {otherHelper.Name} (opinion: {helperOpinion}) and gains 'WorkingWithFriend'.");
+                        DebugHelpers.DebugLog("HelperSocialMechanics", $"{helper.Name} has a positive opinion of {otherHelper.Name} (opinion: {helperOpinion}) and gains 'WorkingWithFriend'.");
                     }
 
                     if (otherHelperOpinion >= 40)
                     {
                         otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithFriend"));
-                        DebugHelpers.HSMLog($"{otherHelper.Name} has a positive opinion of {helper.Name} (opinion: {otherHelperOpinion}) and gains 'WorkingWithFriend'.");
+                        DebugHelpers.DebugLog("HelperSocialMechanics", $"{otherHelper.Name} has a positive opinion of {helper.Name} (opinion: {otherHelperOpinion}) and gains 'WorkingWithFriend'.");
                     }
                 }
             }
@@ -84,16 +84,17 @@ namespace Helpers
                 if (helperOpinion <= -40)
                 {
                     helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-                    DebugHelpers.HSMLog($"{helper.Name} dislikes {helped.Name} (opinion: {helperOpinion}) and gains 'WorkingWithRival'.");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helper.Name} dislikes {helped.Name} (opinion: {helperOpinion}) and gains 'WorkingWithRival'.");
                 }
 
                 if (helpedOpinion <= -40)
                 {
                     helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-                    DebugHelpers.HSMLog($"{helped.Name} dislikes {helper.Name} (opinion: {helpedOpinion}) and gains 'WorkingWithRival'.");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helped.Name} dislikes {helper.Name} (opinion: {helpedOpinion}) and gains 'WorkingWithRival'.");
                 }
             }
         }
+
         /// <summary>
         /// Checks for rivalries among the helpers and applies mood debuffs where necessary.
         /// </summary>
@@ -111,13 +112,13 @@ namespace Helpers
                     if (helperOpinion <= -40)
                     {
                         helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-                        DebugHelpers.HSMLog($"{helper.Name} dislikes {otherHelper.Name} (opinion: {helperOpinion}) and gains 'WorkingWithRival'.");
+                        DebugHelpers.DebugLog("HelperSocialMechanics", $"{helper.Name} dislikes {otherHelper.Name} (opinion: {helperOpinion}) and gains 'WorkingWithRival'.");
                     }
 
                     if (otherHelperOpinion <= -40)
                     {
                         otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithRival"));
-                        DebugHelpers.HSMLog($"{otherHelper.Name} dislikes {helper.Name} (opinion: {otherHelperOpinion}) and gains 'WorkingWithRival'.");
+                        DebugHelpers.DebugLog("HelperSocialMechanics", $"{otherHelper.Name} dislikes {helper.Name} (opinion: {otherHelperOpinion}) and gains 'WorkingWithRival'.");
                     }
                 }
             }
@@ -133,12 +134,12 @@ namespace Helpers
                 if (helperBeautyDegree == -1 || helperBeautyDegree == -2)
                 {
                     helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
-                    DebugHelpers.HSMLog($"{helper.Name} is perceived as ugly by {helped.Name}");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helper.Name} is perceived as ugly by {helped.Name}");
                 }
                 else if (helperBeautyDegree == 1 || helperBeautyDegree == 2)
                 {
                     helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
-                    DebugHelpers.HSMLog($"{helper.Name} is perceived as beautiful by {helped.Name}");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helper.Name} is perceived as beautiful by {helped.Name}");
                 }
             }
 
@@ -147,12 +148,12 @@ namespace Helpers
                 if (helpedBeautyDegree == -1 || helpedBeautyDegree == -2)
                 {
                     helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
-                    DebugHelpers.HSMLog($"{helped.Name} is perceived as ugly by {helper.Name}");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helped.Name} is perceived as ugly by {helper.Name}");
                 }
                 else if (helpedBeautyDegree == 1 || helpedBeautyDegree == 2)
                 {
                     helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
-                    DebugHelpers.HSMLog($"{helped.Name} is perceived as beautiful by {helper.Name}");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helped.Name} is perceived as beautiful by {helper.Name}");
                 }
             }
         }
@@ -169,12 +170,12 @@ namespace Helpers
                 if (otherHelperBeautyDegree == -1 || otherHelperBeautyDegree == -2)
                 {
                     helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithUgly"));
-                    DebugHelpers.HSMLog($"{otherHelper.Name} is perceived as ugly by {helper.Name}");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{otherHelper.Name} is perceived as ugly by {helper.Name}");
                 }
                 else if (otherHelperBeautyDegree == 1 || otherHelperBeautyDegree == 2)
                 {
                     helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithBeautiful"));
-                    DebugHelpers.HSMLog($"{otherHelper.Name} is perceived as beautiful by {helper.Name}");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{otherHelper.Name} is perceived as beautiful by {helper.Name}");
                 }
             }
         }
@@ -185,7 +186,7 @@ namespace Helpers
             {
                 helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
                 helped.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
-                DebugHelpers.HSMLog($"{helper.Name} and {helped.Name} are lovers and gain 'WorkingWithLover'");
+                DebugHelpers.DebugLog("HelperSocialMechanics", $"{helper.Name} and {helped.Name} are lovers and gain 'WorkingWithLover'");
             }
         }
 
@@ -199,7 +200,7 @@ namespace Helpers
                 {
                     helper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
                     otherHelper.needs.mood.thoughts.memories.TryGainMemory(DefDatabase<ThoughtDef>.GetNamed("WorkingWithLover"));
-                    DebugHelpers.HSMLog($"{helper.Name} and {otherHelper.Name} are lovers and gain 'WorkingWithLover'");
+                    DebugHelpers.DebugLog("HelperSocialMechanics", $"{helper.Name} and {otherHelper.Name} are lovers and gain 'WorkingWithLover'");
                 }
             }
         }
@@ -210,11 +211,11 @@ namespace Helpers
             if (pawn.story?.traits.HasTrait(beautyTrait) == true)
             {
                 int degree = pawn.story.traits.DegreeOfTrait(beautyTrait);
-                DebugHelpers.HSMLog($"{pawn.Name} has Beauty trait with degree: {degree}");
+                DebugHelpers.DebugLog("HelperSocialMechanics", $"{pawn.Name} has Beauty trait with degree: {degree}");
                 return degree;
             }
 
-            DebugHelpers.HSMLog($"{pawn.Name} does not have the Beauty trait.");
+            DebugHelpers.DebugLog("HelperSocialMechanics", $"{pawn.Name} does not have the Beauty trait.");
             return null;
         }
 
@@ -223,14 +224,13 @@ namespace Helpers
             int? beautyDegree = GetBeautyDegree(pawn);
             if (beautyDegree.HasValue)
             {
-                DebugHelpers.HSMLog($"{pawn.Name} has Beauty trait with degree: {beautyDegree.Value}");
+                DebugHelpers.DebugLog("HelperSocialMechanics", $"{pawn.Name} has Beauty trait with degree: {beautyDegree.Value}");
             }
             else
             {
-                DebugHelpers.HSMLog($"{pawn.Name} does not have the Beauty trait.");
+                DebugHelpers.DebugLog("HelperSocialMechanics", $"{pawn.Name} does not have the Beauty trait.");
             }
         }
-
-
     }
 }
+

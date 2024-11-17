@@ -6,27 +6,16 @@ using UnityEngine;
 
 namespace Helpers
 {
-
-    // TODO Rival Dose not work, Needs to be fixed
-
-    //[DefOf]
-    //public static class HelpersDefOf
-    //{
-    //    // Relations
-    //    public static PawnRelationDef Rival;
-
-    //    // Ensure all defs are resolved
-    //    static HelpersDefOf()
-    //    {
-    //        DefOfHelper.EnsureInitializedInCtor(typeof(HelpersDefOf));
-    //    }
-    //}
-
     public static class CustomToils_Recipe
     {
+        /// <summary>
+        /// Custom toil for recipe work, incorporating helper contributions.
+        /// </summary>
         public static Toil DoRecipeWork_Helper()
         {
             Toil toil = ToilMaker.MakeToil("DoRecipeWork");
+
+            // Initialization action for the toil
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
@@ -35,7 +24,7 @@ namespace Helpers
                 Thing targetThing = curJob.GetTarget(TargetIndex.B).Thing;
                 UnfinishedThing unfinishedThing = targetThing as UnfinishedThing;
 
-                DebugHelpers.CTRLog($"Initializing DoRecipeWork_Helper for pawn: {actor.Name}");
+                DebugHelpers.DebugLog("CustomToils_Recipe", $"Initializing DoRecipeWork_Helper for pawn: {actor.Name}");
 
                 if (unfinishedThing != null && unfinishedThing.Initialized)
                 {
@@ -49,11 +38,13 @@ namespace Helpers
                         unfinishedThing.workLeft = jobDriver.workLeft;
                     }
                 }
+
                 jobDriver.billStartTick = Find.TickManager.TicksGame;
                 jobDriver.ticksSpentDoingRecipeWork = 0;
                 curJob.bill.Notify_BillWorkStarted(actor);
             };
 
+            // Main tick action for the toil
             toil.tickAction = delegate
             {
                 Pawn actor = toil.actor;
@@ -63,7 +54,7 @@ namespace Helpers
 
                 if (unfinishedThing != null && unfinishedThing.Destroyed)
                 {
-                    DebugHelpers.CTRLog($"Unfinished thing destroyed, ending job for {actor.Name}");
+                    DebugHelpers.DebugLog("CustomToils_Recipe", $"Unfinished thing destroyed, ending job for {actor.Name}");
                     actor.jobs.EndCurrentJob(JobCondition.Incompletable);
                     return;
                 }
@@ -81,7 +72,7 @@ namespace Helpers
                     actor.skills.Learn(curJob.RecipeDef.workSkill, 0.1f * curJob.RecipeDef.workSkillLearnFactor);
                 }
 
-                // Base work speed
+                // Base work speed calculation
                 float workSpeed = curJob.RecipeDef.workSpeedStat == null
                     ? 1f
                     : actor.GetStatValue(curJob.RecipeDef.workSpeedStat);
@@ -109,9 +100,8 @@ namespace Helpers
                     );
                 }
 
-
                 jobDriver.workLeft -= workSpeed;
-                DebugHelpers.CTRLog($"Work left for {actor.Name}: {jobDriver.workLeft}");
+                DebugHelpers.DebugLog("CustomToils_Recipe", $"Work left for {actor.Name}: {jobDriver.workLeft}");
 
                 if (unfinishedThing != null)
                 {
@@ -127,6 +117,7 @@ namespace Helpers
                 }
             };
 
+            // Toil setup
             toil.defaultCompleteMode = ToilCompleteMode.Never;
             toil.WithEffect(() => toil.actor.CurJob.bill.recipe.effectWorking, TargetIndex.A);
             toil.PlaySustainerOrSound(() => toil.actor.CurJob.bill.recipe.soundWorking);
@@ -155,7 +146,4 @@ namespace Helpers
             return toil;
         }
     }
-
-
 }
-

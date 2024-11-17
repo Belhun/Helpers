@@ -12,17 +12,17 @@ namespace Helpers
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            DebugHelpers.JDHLog($"{pawn.Name} is starting to help {TargetPawn.Name}.");
+            DebugHelpers.DebugLog("JobDriver_Helping", $"{pawn.Name} is starting to help {TargetPawn.Name}.");
 
             // Attach the helper to the target pawn's component
             var targetHelperComp = TargetPawn.GetHelperComponent();
             if (targetHelperComp != null)
             {
                 targetHelperComp.AddHelper(pawn);
-                DebugHelpers.JDHLog($"{pawn.Name} added as a helper to {TargetPawn.Name}.");
+                DebugHelpers.DebugLog("JobDriver_Helping", $"{pawn.Name} added as a helper to {TargetPawn.Name}.");
             }
 
-            // Fail if the target pawn becomes invalid
+            // Fail the job if the target pawn becomes invalid
             this.FailOnDespawnedOrNull(TargetIndex.A);
 
             // Go to the target pawn
@@ -38,10 +38,10 @@ namespace Helpers
                     {
                         tickCounter = 0; // Reset the counter
 
-                        // Check if target pawn has moved and start a new path if necessary
+                        // If the target pawn moves, adjust the path accordingly
                         if (TargetPawn.Position != pawn.Position)
                         {
-                            DebugHelpers.JDHLog($"{pawn.Name} is moving to follow {TargetPawn.Name}.");
+                            DebugHelpers.DebugLog("JobDriver_Helping", $"{pawn.Name} is moving to follow {TargetPawn.Name}.");
                             pawn.pather.StartPath(TargetPawn, PathEndMode.Touch);
                         }
                     }
@@ -55,7 +55,7 @@ namespace Helpers
                 if (targetHelperComp != null)
                 {
                     targetHelperComp.RemoveHelper(pawn);
-                    DebugHelpers.JDHLog($"{pawn.Name} has stopped helping {TargetPawn.Name}.");
+                    DebugHelpers.DebugLog("JobDriver_Helping", $"{pawn.Name} has stopped helping {TargetPawn.Name}.");
                 }
             });
 
@@ -64,9 +64,8 @@ namespace Helpers
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            // Skip reservation to allow multiple helpers
+            // Allow multiple helpers by skipping reservations
             return true;
         }
     }
-
 }

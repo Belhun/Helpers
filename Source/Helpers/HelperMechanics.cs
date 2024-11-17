@@ -7,6 +7,15 @@ namespace Helpers
 {
     public static class HelperMechanics
     {
+        /// <summary>
+        /// Calculates the contribution of helper pawns to the work speed of the main actor.
+        /// </summary>
+        /// <param name="actor">The primary pawn performing the job.</param>
+        /// <param name="jobDriver">The job driver for the task.</param>
+        /// <param name="recipeDef">The recipe definition for the task.</param>
+        /// <param name="currentHelpers">A list of pawns assisting the actor.</param>
+        /// <param name="workSpeedStat">The stat defining work speed for the task.</param>
+        /// <returns>The total contribution from all helpers.</returns>
         public static float CalculateHelperContribution(
             Pawn actor,
             JobDriver jobDriver,
@@ -18,7 +27,7 @@ namespace Helpers
 
             foreach (Pawn helper in currentHelpers)
             {
-                DebugHelpers.HMLog($"{helper.Name} is assisting {actor.Name}");
+                DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} is assisting {actor.Name}");
 
                 // Apply social thoughts for this helper
                 HelperSocialMechanics.ApplySocialThoughts(helper, actor, currentHelpers);
@@ -33,13 +42,17 @@ namespace Helpers
                 }
 
                 // Calculate total contribution based on helper stats
-                helperTotal += contribution * helper.GetStatValue(workSpeedStat);
+                float helperStatValue = helper.GetStatValue(workSpeedStat);
+                helperTotal += contribution * helperStatValue;
+
+                DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name}'s contribution: {contribution} (Stat Value: {helperStatValue})");
 
                 // Add experience to helper
                 helper.skills.Learn(recipeDef.workSkill, 0.1f * recipeDef.workSkillLearnFactor);
+                DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} gained experience in {recipeDef.workSkill.defName}");
             }
 
-            DebugHelpers.HMLog($"Total helper contribution to work speed: {helperTotal}");
+            DebugHelpers.DebugLog("HelperMechanics", $"Total helper contribution to work speed: {helperTotal}");
             return helperTotal;
         }
     }
