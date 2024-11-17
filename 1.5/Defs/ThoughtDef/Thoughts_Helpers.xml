@@ -54,17 +54,17 @@
   </ThoughtDef>
   <ThoughtDef>
     <defName>WorkingWithFriend</defName>
-    <label>worked with a friend</label>
-    <description>Working alongside a friend was uplifting and enjoyable.</description>
     <durationDays>0.5</durationDays>
-    <thoughtClass>Thought_Memory</thoughtClass>
     <stackLimit>1</stackLimit>
+    <thoughtClass>Thought_Memory</thoughtClass>
     <stages>
-      <li>
-        <label>worked with a friend</label>
-        <baseMoodEffect>10</baseMoodEffect>
-      </li>
+        <li>
+            <label>Worked with a friend</label>
+            <description>Working alongside a friend was uplifting and enjoyable.</description>
+            <baseMoodEffect>10</baseMoodEffect>
+        </li>
     </stages>
   </ThoughtDef>
+
 
 </Defs>
