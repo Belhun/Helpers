@@ -32,70 +32,72 @@ namespace Helpers
         /// </summary>
         public static void Postfix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
         {
-            IntVec3 centerCell = IntVec3.FromVector3(clickPos);
-            Pawn targetPawn = centerCell.GetFirstPawn(pawn.Map);
-
-            // Search for a valid target pawn in adjacent cells if none found at the clicked position
-            if (targetPawn == null)
+            // Define targeting parameters to filter valid target pawns
+            TargetingParameters targetingParams = new TargetingParameters
             {
-                foreach (IntVec3 cell in GenAdj.CellsAdjacent8Way(centerCell, Rot4.North, new IntVec2(3, 3)))
+                canTargetPawns = true,
+                canTargetItems = false,
+                validator = t =>
                 {
-                    targetPawn = cell.GetFirstPawn(pawn.Map);
-                    if (targetPawn != null && targetPawn != pawn) break;
-                }
-            }
-
-            if (targetPawn == null)
-            {
-                DebugHelpers.DebugLog("FloatMenuMakerMap", "No valid target pawn found in the clicked area.");
-                return;
-            }
-
-            // Get all selected pawns, excluding the target pawn
-            var selectedPawns = Find.Selector.SelectedObjects
-                .OfType<Pawn>()
-                .Where(p => p != targetPawn && p.IsColonistPlayerControlled)
-                .ToList();
-
-            DebugHelpers.DebugLog("FloatMenuMakerMap", $"Selected pawns: {string.Join(", ", selectedPawns.Select(p => p.Name.ToStringShort))}");
-
-            if (selectedPawns.Count == 0)
-            {
-                DebugHelpers.DebugLog("FloatMenuMakerMap", "No valid helper pawns selected.");
-                return;
-            }
-
-            // Define the label for the "Help" menu option
-            string label = selectedPawns.Count > 1
-                ? $"Help {targetPawn.Name.ToStringShort} with {selectedPawns.Count} pawns"
-                : $"Help {targetPawn.Name.ToStringShort}";
-
-            DebugHelpers.DebugLog("FloatMenuMakerMap", $"Creating menu option with label: {label}");
-
-            // Define the action when the menu option is selected
-            Action action = () =>
-            {
-                foreach (var helperPawn in selectedPawns)
-                {
-                    Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("Helping"), targetPawn);
-                    helperPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-                    DebugHelpers.DebugLog("FloatMenuMakerMap", $"{helperPawn.Name} is now helping {targetPawn.Name}.");
+                    if (t.Thing is Pawn targetPawn && targetPawn != pawn && targetPawn.IsColonistPlayerControlled)
+                    {
+                        return !targetPawn.Downed && !targetPawn.Dead;
+                    }
+                    return false;
                 }
             };
 
-            // Create and add the menu option
-            FloatMenuOption helpOption = new FloatMenuOption(label, action);
-            if (helpOption != null)
+            // Get all valid targets at the clicked position
+            foreach (LocalTargetInfo target in GenUI.TargetsAt(clickPos, targetingParams, thingsOnly: true))
             {
-                opts.Add(helpOption);
-                DebugHelpers.DebugLog("FloatMenuMakerMap", $"Added 'Help' option to the float menu for {targetPawn.Name}.");
-            }
-            else
-            {
-                DebugHelpers.DebugLog("FloatMenuMakerMap", "Failed to create a 'Help' FloatMenuOption.");
+                if (target.Thing is Pawn targetPawn)
+                {
+                    DebugHelpers.DebugLog("FloatMenuMakerMap", $"Found valid target: {targetPawn.LabelShortCap}");
+
+                    // Get all selected pawns, excluding the target pawn
+                    var selectedPawns = Find.Selector.SelectedObjects
+                        .OfType<Pawn>()
+                        .Where(p => p != targetPawn && p.IsColonistPlayerControlled)
+                        .ToList();
+
+                    if (selectedPawns.Count == 0)
+                    {
+                        DebugHelpers.DebugLog("FloatMenuMakerMap", "No valid helper pawns selected.");
+                        continue;
+                    }
+
+                    // Define the label for the "Help" menu option
+                    string label = selectedPawns.Count > 1
+                        ? $"Help {targetPawn.LabelShortCap} with {selectedPawns.Count} pawns"
+                        : $"Help {targetPawn.LabelShortCap}";
+
+                    DebugHelpers.DebugLog("FloatMenuMakerMap", $"Creating menu option with label: {label}");
+
+                    // Define the action when the menu option is selected
+                    Action action = () =>
+                    {
+                        foreach (var helperPawn in selectedPawns)
+                        {
+                            Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("Helping"), targetPawn);
+                            helperPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+                            DebugHelpers.DebugLog("FloatMenuMakerMap", $"{helperPawn.Name} is now helping {targetPawn.LabelShortCap}.");
+                        }
+                    };
+
+                    // Create and add the menu option
+                    FloatMenuOption helpOption = FloatMenuUtility.DecoratePrioritizedTask(
+                        new FloatMenuOption(label, action, MenuOptionPriority.Default),
+                        pawn,
+                        targetPawn
+                    );
+
+                    opts.Add(helpOption);
+                    DebugHelpers.DebugLog("FloatMenuMakerMap", $"Added 'Help' option to the float menu for {targetPawn.LabelShortCap}.");
+                }
             }
         }
     }
+
 
     [HarmonyPatch(typeof(Toils_Recipe), "DoRecipeWork")]
     public static class DoRecipeWorkOverridePatch
