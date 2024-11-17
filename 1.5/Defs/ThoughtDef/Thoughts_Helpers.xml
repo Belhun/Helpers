@@ -13,7 +13,7 @@
     </stages>
   </ThoughtDef>
 
-    <ThoughtDef>
+  <ThoughtDef>
         <defName>WorkingWithUgly</defName>
         <durationDays>0.5</durationDays>
         <stackLimit>1</stackLimit>
@@ -25,33 +25,46 @@
             <baseMoodEffect>-5</baseMoodEffect>
             </li>
         </stages>
-    </ThoughtDef>
+  </ThoughtDef>
+  <ThoughtDef>
+      <defName>WorkingWithBeautiful</defName>
+      <durationDays>0.5</durationDays>
+      <stackLimit>1</stackLimit>
+      <thoughtClass>Thought_Memory</thoughtClass>
+      <stages>
+          <li>
+          <label>Worked with a beautiful person</label>
+          <description>It was a pleasure to work alongside someone so captivating.</description>
+          <baseMoodEffect>5</baseMoodEffect>
+          </li>
+      </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+      <defName>WorkingWithLover</defName>
+      <durationDays>0.5</durationDays>
+      <stackLimit>1</stackLimit>
+      <thoughtClass>Thought_Memory</thoughtClass>
+      <stages>
+          <li>
+          <label>Worked with my lover</label>
+          <description>Being close to my lover while working made the task enjoyable.</description>
+          <baseMoodEffect>10</baseMoodEffect>
+          </li>
+      </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>WorkingWithFriend</defName>
+    <label>worked with a friend</label>
+    <description>Working alongside a friend was uplifting and enjoyable.</description>
+    <durationDays>0.5</durationDays>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>worked with a friend</label>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
 
-    <ThoughtDef>
-        <defName>WorkingWithBeautiful</defName>
-        <durationDays>0.5</durationDays>
-        <stackLimit>1</stackLimit>
-        <thoughtClass>Thought_Memory</thoughtClass>
-        <stages>
-            <li>
-            <label>Worked with a beautiful person</label>
-            <description>It was a pleasure to work alongside someone so captivating.</description>
-            <baseMoodEffect>5</baseMoodEffect>
-            </li>
-        </stages>
-    </ThoughtDef>
-
-    <ThoughtDef>
-        <defName>WorkingWithLover</defName>
-        <durationDays>0.5</durationDays>
-        <stackLimit>1</stackLimit>
-        <thoughtClass>Thought_Memory</thoughtClass>
-        <stages>
-            <li>
-            <label>Worked with my lover</label>
-            <description>Being close to my lover while working made the task enjoyable.</description>
-            <baseMoodEffect>10</baseMoodEffect>
-            </li>
-        </stages>
-    </ThoughtDef>
 </Defs>

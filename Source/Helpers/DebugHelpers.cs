@@ -4,30 +4,24 @@ namespace Helpers
 {
     public static class DebugHelpers
     {
-        public static bool OverallLogging = false; // Enable/Disable all logging globally
+        public static bool OverallLogging = true; // Enable/Disable all logging globally
         public static bool CustomToils_Recipe_Logging = true; // Enable/Disable logging for CustomToils_Recipe
-        public static bool PawnBeautyChecker_Logging = true; // Enable/Disable logging for PawnBeautyChecker
         public static bool Pawn_SpawnSetup_Patch_Logging = false; // Enable/Disable logging for Pawn_SpawnSetup_Patch
         public static bool PawnHelperComponent_Logging = false; // Enable/Disable logging for PawnHelperComponent
         public static bool CompProperties_PawnHelper_Logging = false; // Enable/Disable logging for CompProperties_PawnHelper
         public static bool PawnHelperExtensions_Logging = false; // Enable/Disable logging for PawnHelperExtensions
         public static bool FloatMenuMakerMap_Logging = false; // Enable/Disable logging for FloatMenuMakerMap
-        public static bool DoRecipeWorkOverride_Logging = true; // Enable/Disable logging for DoRecipeWorkOverridePatch
+        public static bool DoRecipeWorkOverride_Logging = false; // Enable/Disable logging for DoRecipeWorkOverridePatch
         public static bool JobDriver_Helping_Logging = false; // Enable/Disable logging for JobDriver_Helping
+        public static bool HelperSocialMechanics_Logging = true; // Enable/Disable logging for HelperSocialMechanics
+        public static bool HelperMechanics_Logging = true; // Enable/Disable logging for HelperMechanics
+
 
         public static void CTRLog(string message)
         {
             if (OverallLogging && CustomToils_Recipe_Logging)
             {
                 Log.Message($"[Helpers Mod][CustomToils_Recipe] {message}");
-            }
-        }
-
-        public static void PBCLog(string message)
-        {
-            if (OverallLogging && PawnBeautyChecker_Logging)
-            {
-                Log.Message($"[Helpers Mod][PawnBeautyChecker] {message}");
             }
         }
 
@@ -84,6 +78,22 @@ namespace Helpers
             if (OverallLogging && JobDriver_Helping_Logging)
             {
                 Log.Message($"[Helpers Mod][JobDriver_Helping] {message}");
+            }
+        }
+
+        public static void HSMLog(string message)
+        {
+            if (OverallLogging && HelperSocialMechanics_Logging)
+            {
+                Log.Message($"[Helpers Mod][HelperSocialMechanics] {message}");
+            }
+        }
+
+        public static void HMLog(string message)
+        {
+            if (OverallLogging && HelperMechanics_Logging)
+            {
+                Log.Message($"[Helpers Mod][HelperMechanics] {message}");
             }
         }
     }
