@@ -76,12 +76,12 @@ namespace Helpers
                 float workSpeed = curJob.RecipeDef.workSpeedStat == null
                     ? 1f
                     : actor.GetStatValue(curJob.RecipeDef.workSpeedStat);
-
+                
                 if (curJob.RecipeDef.workTableSpeedStat != null && jobDriver.BillGiver is Building_WorkTable workTable)
                 {
                     workSpeed *= workTable.GetStatValue(curJob.RecipeDef.workTableSpeedStat);
                 }
-
+                
                 if (DebugSettings.fastCrafting)
                 {
                     workSpeed *= 30f;

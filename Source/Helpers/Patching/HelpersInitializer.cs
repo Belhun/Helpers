@@ -99,17 +99,17 @@ namespace Helpers
     }
 
 
-    [HarmonyPatch(typeof(Toils_Recipe), "DoRecipeWork")]
-    public static class DoRecipeWorkOverridePatch
-    {
-        /// <summary>
-        /// Replaces the default DoRecipeWork toil with the custom DoRecipeWork_Helper toil.
-        /// </summary>
-        public static bool Prefix(ref Toil __result)
-        {
-            __result = Helpers.CustomToils_Recipe.DoRecipeWork_Helper();
-            DebugHelpers.DebugLog("DoRecipeWorkOverridePatch", "Replaced DoRecipeWork with custom DoRecipeWork_Helper.");
-            return false; // Skip the original method
-        }
-    }
+    //[HarmonyPatch(typeof(Toils_Recipe), "DoRecipeWork")]
+    //public static class DoRecipeWorkOverridePatch
+    //{
+    //    /// <summary>
+    //    /// Replaces the default DoRecipeWork toil with the custom DoRecipeWork_Helper toil.
+    //    /// </summary>
+    //    public static bool Prefix(ref Toil __result)
+    //    {
+    //        __result = Helpers.CustomToils_Recipe.DoRecipeWork_Helper();
+    //        DebugHelpers.DebugLog("DoRecipeWorkOverridePatch", "Replaced DoRecipeWork with custom DoRecipeWork_Helper.");
+    //        return false; // Skip the original method
+    //    }
+    //}
 }

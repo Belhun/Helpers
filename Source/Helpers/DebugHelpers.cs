@@ -18,7 +18,8 @@ namespace Helpers
             { "FloatMenuMakerMap", false },
             { "DoRecipeWorkOverridePatch", false },
             { "JobDriver_Helping", false },
-            { "HelperSocialMechanics", true },
+            { "HelperSocialMechanics", false },
+            { "JobDriver_ConstructFinishFrame_[MakeNewToils]", false },
             { "HelperMechanics", true }
         };
 
