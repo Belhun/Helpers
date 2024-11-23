@@ -17,7 +17,7 @@ namespace Helpers
         /// <param name="workSpeedStat">The stat defining work speed for the task.</param>
         /// <returns>The total contribution from all helpers.</returns>
         public static float CalculateHelperContribution(Pawn actor,JobDriver jobDriver,RecipeDef recipeDef,List<Pawn> currentHelpers,StatDef workSpeedStat)
-        {
+        { 
 
             float helperTotal = 0f;
             var helperComp = jobDriver.pawn.GetHelperComponent();

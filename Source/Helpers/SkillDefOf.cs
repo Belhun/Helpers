@@ -11,7 +11,7 @@ namespace Helpers
     public static class SkillDefOf
     {
         public static SkillDef Helping;
-
+        public static string Name = "Helping";
         static SkillDefOf()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(SkillDefOf));

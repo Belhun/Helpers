@@ -16,11 +16,12 @@ namespace Helpers
             { "CompProperties_PawnHelper", false },
             { "PawnHelperExtensions", false },
             { "FloatMenuMakerMap", false },
-            { "DoRecipeWorkOverridePatch", false },
             { "JobDriver_Helping", false },
             { "HelperSocialMechanics", false },
-            { "JobDriver_ConstructFinishFrame_[MakeNewToils]", false },
-            { "HelperMechanics", true }
+            { "JobDriver_ConstructFinishFrame", false },
+            { "HelperMechanics", false },
+            { "Patch_PostFixCunstruction", false },
+            { "Patch_PostToilsRecipe", false }
         };
 
         /// <summary>

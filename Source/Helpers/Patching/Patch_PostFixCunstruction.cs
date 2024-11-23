@@ -36,10 +36,10 @@ namespace Helpers
                     Log.Warning("Helpers: Unable to retrieve var 'buildarray'.");
                     return;
                 }
-                //Log.Message($"actorField.Attributes :{buildarray.Attributes}");
-                //Log.Message($"actorField.Name :{buildarray.Name}");
-                //Log.Message($"actorField :{buildarray}");
-                //Log.Message($"actorField?.GetValue(__instance) :{buildarray?.GetValue(__instance)}");
+                //Log.Message($"buildarray.Attributes :{buildarray.Attributes}");
+                //Log.Message($"buildarray.Name :{buildarray.Name}");
+                //Log.Message($"buildarray :{buildarray}");
+                //Log.Message($"buildarray?.GetValue(__instance) :{buildarray?.GetValue(__instance)}");
 
 
                 Toil build = buildarray?.GetValue(__instance) as Toil;
@@ -78,7 +78,7 @@ namespace Helpers
                 // Adjust frame.workDone with helper contribution
                 frame.workDone += helperContribution;
 
-                Log.Message($"Helpers: Added {helperContribution} work to frame. Total work done: {frame.workDone}");
+                DebugHelpers.DebugLog("Patch_PostFixCunstruction", $"Helpers: Added {helperContribution} work to frame. Total work done: {frame.workDone}");
             }
             catch (System.Exception ex)
             {

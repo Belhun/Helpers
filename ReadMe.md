@@ -2,15 +2,16 @@
 
 ## **Overview**
 Helpers is a quality-of-life mod for RimWorld that's designed to let pawns assist other pawns with various tasks. It's created to improve efficiency, enrich gameplay with skill development, and foster social interactions, making colonies feel more dynamic. The mod avoids creating overpowered situations by introducing trade-offs that maintain challenge and realism.
-
+(Not all of these are implamented yet but is at least part of the plan)
 ## **Core Features and Mechanics**
 
 ### **Helping Mechanic**
    - Adds a new "Help" button to the game interface.
    - Accessible through the right-click context menu when selecting a pawn.
-   - Enables one pawn (the helper) to assist another (the worker) with tasks such as crafting, cooking, and more.
+   - Enables one pawn (the helper) to assist another (the worker/Helped) with tasks such as crafting, cooking, and more.
    - Allows multiple helpers to assist a single worker.
-   - Contributions are determined by the skill levels of the helpers.
+   - Contributions are determined by the skill levels of the helpers(useing there Skill for the particular task(Construction, Medical, Cooking, Crafting), and there Helper Skill, Whtich Determins how effetion they are at helping with tasks).
+   - helpers Also Contribute 
 
 ---
 

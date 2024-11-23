@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Verse;
 using Verse.AI;
@@ -8,7 +9,7 @@ using Verse.AI;
 namespace Helpers
 {
     [HarmonyPatch]
-    public static class Patch_DoRecipeWork_Postfix
+    public static class Patch_PostToilsRecipe
     {
         static MethodBase TargetMethod()
         {
@@ -19,20 +20,33 @@ namespace Helpers
 
         public static void Postfix(object __instance)
         {
-            // Retrieve the `toil` object
-            var toilField = __instance.GetType().GetField("toil", BindingFlags.Instance | BindingFlags.NonPublic);
-            var toil = toilField?.GetValue(__instance) as Toil;
-            if (toil == null)
+
+            // Inspect closure fields
+            var fields = __instance.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            DebugHelpers.DebugLog("Patch_PostToilsRecipe", $"Closure fields: {string.Join(", ", fields.Select(f => f.Name))}");
+
+            // Try retrieving the Toil field
+            var toilField = __instance.GetType().GetField("toil", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            if (toilField == null)
             {
-                Log.Warning("Postfix: Failed to retrieve `toil`.");
+                Log.Warning("Failed to retrieve 'toil' field from closure.");
                 return;
             }
 
+            var toil = toilField.GetValue(__instance) as Toil;
+            if (toil == null)
+            {
+                Log.Warning("Failed to cast 'toil' to Toil.");
+                return;
+            }
+
+            DebugHelpers.DebugLog("Patch_PostToilsRecipe", $"Toil retrieved: {toil}");
+
             // Get the actor (main pawn performing the job)
-            var actor = toil.actor;
+            Pawn actor = toil?.GetType().GetField("actor", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?.GetValue(toil) as Pawn;
             if (actor == null)
             {
-                Log.Warning("Postfix: Actor is null.");
+                Log.Warning("Helpers: Unable to retrieve Pawn 'actor'.");
                 return;
             }
 
@@ -64,16 +78,14 @@ namespace Helpers
 
             jobDriver.workLeft -= helperContribution;
 
-            DebugHelpers.DebugLog("Patch_DoRecipeWork_Postfix", $" Adjusted workLeft by {helperContribution}. Remaining work: {jobDriver.workLeft}");
+            DebugHelpers.DebugLog("Patch_PostToilsRecipe", $" Adjusted workLeft by {helperContribution}. Remaining work: {jobDriver.workLeft}");
 
             // Log experience updates handled within HelperMechanics (if applicable)
             foreach (var helper in helperComp.CurrentHelpers)
             {
-                DebugHelpers.DebugLog("Patch_DoRecipeWork_Postfix", ": {helper.Name} assisted {actor.Name} and contributed.");
+                DebugHelpers.DebugLog("Patch_PostToilsRecipe", ": {helper.Name} assisted {actor.Name} and contributed.");
             }
         }
-
     }
-
 }
 

@@ -58,7 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Construction helping.cs" />
     <Compile Include="CustomToils_Recipe.cs" />
     <Compile Include="DebugHelpers.cs" />
     <Compile Include="HelperMechanics.cs" />
@@ -66,8 +65,7 @@
     <Compile Include="JobDriver_Helping.cs" />
     <Compile Include="Patching\HelpersInitializer.cs" />
     <Compile Include="Patching\Patch_PostFixCunstruction.cs" />
-    <Compile Include="Patching\UnUSed_Patch_DoBill.cs" />
-    <Compile Include="Patching\Patch_PreCombinedConstruction.cs" />
+    <Compile Include="Patching\Patch_PostToilsRecipe - Copy.cs" />
     <Compile Include="Patching\Patch_PostToilsRecipe.cs" />
     <Compile Include="PawnHelperComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
