@@ -21,6 +21,8 @@ namespace Helpers
             var harmony = new Harmony("Belhun.helpersmod");
             harmony.PatchAll();
             DebugHelpers.DebugLog("HelpersInitializer", "Harmony patches applied successfully.");
+            Harmony.DEBUG = true;
+
         }
     }
 

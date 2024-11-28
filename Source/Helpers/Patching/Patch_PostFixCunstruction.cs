@@ -4,7 +4,7 @@ using System.Reflection;
 using Verse;
 using Verse.AI;
 
-namespace Helpers
+namespace Helpers.Patching
 {
     [HarmonyPatch]
     public static class Patch_ConstructionFrameWork
@@ -36,7 +36,7 @@ namespace Helpers
                     Log.Warning("Helpers: Unable to retrieve var 'buildarray'.");
                     return;
                 }
-                //Log.Message($"buildarray.Attributes :{buildarray.Attributes}");
+                //Log.Message($"buildarray.d :{buildarray.Attributes}");
                 //Log.Message($"buildarray.Name :{buildarray.Name}");
                 //Log.Message($"buildarray :{buildarray}");
                 //Log.Message($"buildarray?.GetValue(__instance) :{buildarray?.GetValue(__instance)}");

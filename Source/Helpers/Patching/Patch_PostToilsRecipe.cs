@@ -6,7 +6,7 @@ using System.Reflection;
 using Verse;
 using Verse.AI;
 
-namespace Helpers
+namespace Helpers.Patching
 {
     [HarmonyPatch]
     public static class Patch_PostToilsRecipe
@@ -20,6 +20,7 @@ namespace Helpers
 
         public static void Postfix(object __instance)
         {
+            //DebugHelpers.DebugLog("Patch_PostToilsRecipe", $"<color=#00FF00>{__result}");
 
             // Inspect closure fields
             var fields = __instance.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
@@ -52,38 +53,46 @@ namespace Helpers
 
             // Retrieve the current job and job driver
             var curJob = actor.jobs?.curJob;
-            var jobDriver = actor.jobs?.curDriver as JobDriver_DoBill;
-            if (curJob == null || jobDriver == null)
+            
+            if (curJob == null)
             {
-                Log.Warning("Postfix: Failed to retrieve current job or job driver.");
+                //Job is done or cancelled
                 return;
             }
-
-            // Get the helper component
-            var helperComp = actor.GetHelperComponent();
-            if (helperComp == null || !helperComp.IsBeingHelped)
+            else
             {
-                // No helpers active, nothing to adjust
-                return;
-            }
+                var jobDriver = actor.jobs?.curDriver as JobDriver_DoBill;
+                if (jobDriver == null)
+                {
+                    return;
+                }
 
-            // Adjust workLeft using the helper contribution
-            float helperContribution = HelperMechanics.CalculateHelperContribution(
-                actor,
-                jobDriver,
-                curJob.RecipeDef,
-                helperComp.CurrentHelpers,
-                curJob.RecipeDef.workSpeedStat
-            );
+                // Get the helper component
+                var helperComp = actor.GetHelperComponent();
+                if (helperComp == null || !helperComp.IsBeingHelped)
+                {
+                    // No helpers active, nothing to adjust
+                    return;
+                }
 
-            jobDriver.workLeft -= helperContribution;
+                // Adjust workLeft using the helper contribution
+                float helperContribution = HelperMechanics.CalculateHelperContribution(
+                    actor,
+                    jobDriver,
+                    curJob.RecipeDef,
+                    helperComp.CurrentHelpers,
+                    curJob.RecipeDef.workSpeedStat
+                );
 
-            DebugHelpers.DebugLog("Patch_PostToilsRecipe", $" Adjusted workLeft by {helperContribution}. Remaining work: {jobDriver.workLeft}");
+                jobDriver.workLeft -= helperContribution;
 
-            // Log experience updates handled within HelperMechanics (if applicable)
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                DebugHelpers.DebugLog("Patch_PostToilsRecipe", ": {helper.Name} assisted {actor.Name} and contributed.");
+                DebugHelpers.DebugLog("Patch_PostToilsRecipe", $" Adjusted workLeft by {helperContribution}. Remaining work: {jobDriver.workLeft}");
+
+                // Log experience updates handled within HelperMechanics (if applicable)
+                foreach (var helper in helperComp.CurrentHelpers)
+                {
+                    DebugHelpers.DebugLog("Patch_PostToilsRecipe", ": {helper.Name} assisted {actor.Name} and contributed.");
+                }
             }
         }
     }

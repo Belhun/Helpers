@@ -12,7 +12,7 @@ namespace Helpers
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            DebugHelpers.DebugLog("JobDriver_Helping", $"{pawn.Name} is starting to help {TargetPawn.Name}.");
+            //DebugHelpers.DebugLog("JobDriver_Helping", $"{pawn.Name} is starting to help {TargetPawn.Name}.");
 
             // Attach the helper to the target pawn's component
             var targetHelperComp = TargetPawn.GetHelperComponent();

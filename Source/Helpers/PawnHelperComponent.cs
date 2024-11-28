@@ -36,7 +36,7 @@ namespace Helpers
     public class PawnHelperComponent : ThingComp
     {
         public List<Pawn> CurrentHelpers = new List<Pawn>();
-        public bool IsBeingHelped = false;
+        public bool IsBeingHelped => CurrentHelpers.Count > 0;
 
         /// <summary>
         /// Adds a helper to the pawn's helper list.
@@ -46,7 +46,6 @@ namespace Helpers
             if (!CurrentHelpers.Contains(helper))
             {
                 CurrentHelpers.Add(helper);
-                IsBeingHelped = true;
                 DebugHelpers.DebugLog("PawnHelperComponent", $"{helper.Name} is now helping {parent.LabelCap}.");
             }
         }
@@ -58,13 +57,17 @@ namespace Helpers
         {
             if (CurrentHelpers.Remove(helper))
             {
-                IsBeingHelped = CurrentHelpers.Count > 0;
                 DebugHelpers.DebugLog("PawnHelperComponent", $"{helper.Name} stopped helping {parent.LabelCap}. Remaining helpers: {CurrentHelpers.Count}");
             }
-            else
-            {
-                DebugHelpers.DebugLog("PawnHelperComponent", $"Attempted to remove {helper.Name} from helpers list, but they weren't found.");
-            }
+        }
+
+        /// <summary>
+        /// Clears all helpers from the list (e.g., when the job ends).
+        /// </summary>
+        public void ClearHelpers()
+        {
+            DebugHelpers.DebugLog("PawnHelperComponent", $"{parent.LabelCap} cleared all helpers.");
+            CurrentHelpers.Clear();
         }
 
         /// <summary>
@@ -74,10 +77,9 @@ namespace Helpers
         {
             base.PostExposeData();
             Scribe_Collections.Look(ref CurrentHelpers, "CurrentHelpers", LookMode.Reference);
-            Scribe_Values.Look(ref IsBeingHelped, "IsBeingHelped", false);
-            DebugHelpers.DebugLog("PawnHelperComponent", $"Saved/loaded PawnHelperComponent for {parent.LabelCap}. IsBeingHelped: {IsBeingHelped}, CurrentHelpers count: {CurrentHelpers?.Count ?? 0}");
         }
     }
+
 
     public static class PawnHelperExtensions
     {
