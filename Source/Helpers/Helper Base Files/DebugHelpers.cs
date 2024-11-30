@@ -13,24 +13,19 @@ namespace Helpers
         // Dictionary to manage logging per class/feature
         private static readonly Dictionary<string, bool> ClassLoggingFlags = new Dictionary<string, bool>
         {
-            { "CustomToils_Recipe", false },
-            { "Pawn_SpawnSetup_Patch", false },
-            { "PawnHelperComponent", false },
-            { "CompProperties_PawnHelper", false },
-            { "PawnHelperExtensions", false },
-            { "FloatMenuMakerMap", false },
-            { "JobDriver_Helping", false },
-            { "HelperSocialMechanics", false },
-            { "JobDriver_ConstructFinishFrame", false },
-            { "HelperMechanics", true },
-            { "Patch_CheckSurgeryFail", true },
-            { "Patch_PostFixCunstruction", false },
-            { "Patch_PostToilsRecipe", false },
-            { "GetQualityPostfix", true },
-            { "GetOutcomePostfix", true },
-            { "SurgeryOutcomeSuccess", true },
-            { "HelpersInitializer", true }
+            { "PawnHelperComponent", false }, // Active for helper component logic
+            { "FloatMenuMakerMap", false }, // Used for adding the "Help" option
+            { "JobDriver_Helping", false }, // Relevant for the Helping job driver
+            { "HelperSocialMechanics", false }, // Handles social thoughts logic
+            { "HelperMechanics", true }, // Core mechanics for helper contributions
+            { "Patch_PostFixCunstruction", false }, // Construction contribution patch
+            { "Patch_PostToilsRecipe", false }, // Recipe work contribution patch
+            { "SurgeryOutcomeSuccess", false }, // Handles surgery outcome success
+            { "HelpersInitializer", true }, // Logs initialization details
+            { "Patch_PlantSow", true },
+            { "Patch_PlantWork", false }
         };
+
 
         /// <summary>
         /// Logs a message if logging is enabled for the specified class/feature.

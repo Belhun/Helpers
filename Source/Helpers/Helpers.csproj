@@ -58,12 +58,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomToils_Recipe.cs" />
-    <Compile Include="DebugHelpers.cs" />
-    <Compile Include="HelperMechanics.cs" />
-    <Compile Include="HelpersModSettings.cs" />
-    <Compile Include="HelperSocialMechanics.cs" />
-    <Compile Include="JobDriver_Helping.cs" />
+    <Compile Include="Helper Base Files\DebugHelpers.cs" />
+    <Compile Include="Helper Base Files\HelperMechanics.cs" />
+    <Compile Include="Helper Base Files\HelpersModSettings.cs" />
+    <Compile Include="Helper Base Files\HelperSocialMechanics.cs" />
+    <Compile Include="Helper Base Files\JobDriver_Helping.cs" />
+    <Compile Include="Helper Base Files\PawnHelperComponent.cs" />
+    <Compile Include="Helper Base Files\SkillDefOf.cs" />
     <Compile Include="Patching\HelpersInitializer.cs" />
     <Compile Include="Patching\Patch_AddHelperComp.cs" />
     <Compile Include="Patching\Patch_PostFixCunstruction.cs" />
@@ -73,11 +74,13 @@
     <Compile Include="Patching\unused\Patch_SurgeryOutcomeComp_RecipeSuccessChance.cs" />
     <Compile Include="Patching\unused\Patch_SurgeryOutcomeComp_SurgeonSuccessChance.cs" />
     <Compile Include="Patching\unused\SurgeryOutcomeEffectDef_Patch.cs" />
-    <Compile Include="PawnHelperComponent.cs" />
+    <Compile Include="Plants\Patch_PlantSow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SkillDefOf.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="SurgeryOutcomeComp_Helpers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helper Base Files\Plantsa\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

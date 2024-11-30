@@ -28,6 +28,7 @@ namespace Helpers.Patching
                 //Log.Message($"GetFields :{__instance.GetType().GetFields()[1]}");
                 //Log.Message($"GetFields :{__instance.GetType().GetFields()[0].Attributes}");
                 //Log.Message($"GetFields :{__instance.GetType().GetFields()[1]}");
+                Log.Message($"__instance.GetType().GetFields :{__instance.GetType().GetFields()}");
 
                 var test = __instance.GetType().GetFields()[0].Attributes;
                 var buildarray = __instance.GetType().GetField("build", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public );

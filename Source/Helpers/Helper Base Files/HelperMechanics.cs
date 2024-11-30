@@ -56,6 +56,56 @@ namespace Helpers
         }
 
         /// <summary>
+        /// Calculates the total contribution of helpers to the Cutting speed.As well as awards experience to the helpers.
+        /// </summary>
+        /// <param name="actor">Main Pawn</param>
+        /// <param name="jobDriver">The Cutting JobDriver</param>
+        /// <param name="currentHelpers">a List of Pawns that are helping the Main Pawn</param>
+        /// <param name="workSpeedStat">... ummm Something someting Workspeed stat</param>
+        /// <returns></returns>
+        public static float PlantsCHC(Pawn actor, 
+            JobDriver jobDriver, List<Pawn> currentHelpers, 
+            StatDef workSpeedStat)
+        {
+            SkillDef plantsSkillDef = DefDatabase<SkillDef>.GetNamed("Plants");
+
+            float helperTotal = 0f;
+            var helperComp = jobDriver.pawn.GetHelperComponent();
+            if (helperComp != null && helperComp.IsBeingHelped)
+            {
+                foreach (Pawn helper in currentHelpers)
+                {
+                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} is assisting {actor.Name}");
+
+                    // Apply social thoughts for this helper
+                    HelperSocialMechanics.ApplySocialThoughts(helper, actor, currentHelpers);
+
+                    // Calculate contribution based on helper skill
+                    int skillLevel = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Plants"))?.Level ?? 0;
+
+                    float contribution = (0.5f + (skillLevel / 40f));
+                    if (skillLevel < 5)
+                    {
+                        contribution -= 0.1f; // Penalty for low skill levels
+                    }
+
+                    // Calculate total contribution based on helper stats
+                    float helperStatValue = helper.GetStatValue(workSpeedStat);
+                    helperTotal += contribution * helperStatValue;
+
+                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name}'s contribution: {contribution} (Stat Value: {helperStatValue})");
+
+                    // Add experience to helper
+                    helper.skills.Learn(DefDatabase<SkillDef>.GetNamed("Plants"), 0.1f * 1f);
+                    helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Learn(0.1f * 1f);
+                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} gained experience in {DefDatabase<SkillDef>.GetNamed("Plants").defName}");
+                }
+            }
+            DebugHelpers.DebugLog("HelperMechanics", $"Total helper contribution to work speed: {helperTotal}");
+            return helperTotal;
+        }
+
+        /// <summary>
         /// Calculates the total contribution of helpers to the construction speed.
         /// </summary>
         /// <param name="actor">The main pawn performing the task.</param>
