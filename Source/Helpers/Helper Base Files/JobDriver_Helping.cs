@@ -8,7 +8,7 @@ namespace Helpers
     {
         private Pawn TargetPawn => (Pawn)job.targetA.Thing; // The pawn being helped
         private int tickCounter = 0; // Counter to track ticks
-        private const int checkInterval = 10; // Check every 10 ticks
+        private const int checkInterval = 30; // Check every 10 ticks
 
         protected override IEnumerable<Toil> MakeNewToils()
         {

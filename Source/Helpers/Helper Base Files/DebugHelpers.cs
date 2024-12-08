@@ -23,7 +23,9 @@ namespace Helpers
             { "SurgeryOutcomeSuccess", false }, // Handles surgery outcome success
             { "HelpersInitializer", true }, // Logs initialization details
             { "Patch_PlantSow", true },
-            { "Patch_PlantWork", false }
+            { "Patch_PlantWork", false },
+            { "Patch_PreFixMine", true },
+            { "ReflectionHelper", true }
         };
 
 
