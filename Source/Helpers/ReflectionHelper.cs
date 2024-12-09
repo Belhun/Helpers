@@ -11,6 +11,9 @@ namespace Helpers
         /// Retrieves the value of a nested field or property using reflection or Traverse.
         /// Automatically handles private/protected members.
         /// </summary>
+        /// <param name="obj">The object to retrieve the value from.</param>
+        /// <param name="names">The names of the nested fields or properties to retrieve.</param>
+        /// <returns>The value of the nested field or property, or null if not found.</returns>
         public static object GetNestedFieldOrPropertyValue(object obj, params string[] names)
         {
             string path = obj?.GetType().Name ?? "null";
@@ -19,7 +22,7 @@ namespace Helpers
             {
                 if (obj == null)
                 {
-                    Log.Warning($"[ReflectionHelper] Object is null while resolving path: {path}.{name}");
+                    DebugHelpers.DebugLog("ReflectionHelper", $"Object is null while resolving path: {path}.{name}");
                     return null;
                 }
 
@@ -34,7 +37,7 @@ namespace Helpers
                     {
                         obj = field.GetValue(obj);
                         path += $".{field.Name}";
-                        Log.Message($"[ReflectionHelper] Found field '{field.Name}' at path: {path}");
+                        DebugHelpers.DebugLog("ReflectionHelper", $"Found field '{field.Name}' at path: {path}");
                         break;
                     }
 
@@ -49,13 +52,13 @@ namespace Helpers
                             {
                                 obj = property.GetValue(obj);
                                 path += $".{property.Name}";
-                                Log.Message($"[ReflectionHelper] Found public property '{property.Name}' at path: {path}");
+                                DebugHelpers.DebugLog("ReflectionHelper", $"Found public property '{property.Name}' at path: {path}");
                                 break;
                             }
                         }
                         catch (Exception ex)
                         {
-                            Log.Warning($"[ReflectionHelper] Failed to access property '{property.Name}' via reflection: {ex.Message}. Falling back to Traverse.");
+                            DebugHelpers.DebugLog("ReflectionHelper", $"Failed to access property '{property.Name}' via reflection: {ex.Message}. Falling back to Traverse.");
                         }
                     }
 
@@ -66,17 +69,17 @@ namespace Helpers
                 // If neither field nor property is found, fallback to Traverse
                 if (type == null)
                 {
-                    Log.Warning($"[ReflectionHelper] Direct reflection failed for '{name}', attempting Traverse.");
+                    DebugHelpers.DebugLog("ReflectionHelper", $"Direct reflection failed for '{name}', attempting Traverse.");
                     var traverse = Traverse.Create(obj).Field(name) ?? Traverse.Create(obj).Property(name);
                     if (traverse != null)
                     {
                         obj = traverse.GetValue();
                         path += $".(Traverse:{name})";
-                        Log.Message($"[ReflectionHelper] Found via Traverse: '{name}' at path: {path}");
+                        DebugHelpers.DebugLog("ReflectionHelper", $"Found via Traverse: '{name}' at path: {path}");
                         continue;
                     }
 
-                    Log.Error($"[ReflectionHelper] Failed to find field or property '{name}' using reflection or Traverse at path: {path}");
+                    DebugHelpers.DebugLog("ReflectionHelper", $"Failed to find field or property '{name}' using reflection or Traverse at path: {path}");
                     return null;
                 }
             }

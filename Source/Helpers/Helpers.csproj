@@ -71,11 +71,11 @@
     <Compile Include="Patching\Patch_PreFixMine.cs" />
     <Compile Include="Patching\Patch_PostFixCunstruction.cs" />
     <Compile Include="Patching\Patch_PostToilsRecipe.cs" />
+    <Compile Include="Patching\Patch_transpilerMine.cs" />
     <Compile Include="Patching\unused\PatchUnknown.cs" />
     <Compile Include="Patching\unused\Patch_CheckSurgeryFail.cs" />
     <Compile Include="Patching\unused\Patch_SurgeryOutcomeComp_RecipeSuccessChance.cs" />
     <Compile Include="Patching\unused\Patch_SurgeryOutcomeComp_SurgeonSuccessChance.cs" />
-    <Compile Include="Patching\unused\Patch_transpilerMine.cs" />
     <Compile Include="Patching\unused\Patch_transpilerMine1.cs" />
     <Compile Include="Patching\unused\SurgeryOutcomeEffectDef_Patch.cs" />
     <Compile Include="Plants\Patch_PlantSow.cs" />

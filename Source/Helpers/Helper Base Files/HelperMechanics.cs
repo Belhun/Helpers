@@ -6,6 +6,7 @@ using RimWorld;
 using Verse;
 using Verse.AI;
 using Verse.Noise;
+using System;
 
 namespace Helpers
 {
@@ -103,27 +104,14 @@ namespace Helpers
             return helperTotal;
         }
 
-        /// <summary>
-        /// Calculates the total contribution of helpers to the mining speed and awards experience to the helpers.
-        /// </summary>
-        /// <param name="actor">Main Pawn</param>
-        /// <param name="jobDriver">The Mining JobDriver</param>
-        /// <param name="currentHelpers">A list of pawns that are helping the main pawn</param>
-        /// <param name="workSpeedStat">The stat defining work speed for the task</param>
-        /// <param name="mineTarget">The target being mined</param>
-        /// <param name="buildingProp">The properties of the building being mined</param>
-        /// <returns>The total contribution from all helpers</returns>
-        public static float MineingCHC(Pawn actor, JobDriver_Mine jobDriver, List<Pawn> currentHelpers, StatDef workSpeedStat, Thing mineTarget, BuildingProperties buildingProp)
+
+        public static void DistributeMiningXP(Pawn actor, JobDriver_Mine jobDriver, List<Pawn> currentHelpers, Thing mineTarget, BuildingProperties buildingProp)
         {
-            SkillDef mineSkillDef = DefDatabase<SkillDef>.GetNamed("Mining");
-            float helperTotal = 0f;
+            SkillDef miningSkillDef = DefDatabase<SkillDef>.GetNamed("Mining");
+            SkillDef helpingSkillDef = DefDatabase<SkillDef>.GetNamed("Helping");
 
             DebugHelpers.DebugLog("HelperMechanics", $"MineTarget: {mineTarget}");
 
-            bool rockIsNaturalRock = buildingProp.isNaturalRock;
-            DebugHelpers.DebugLog("HelperMechanics", $"Is Natural Rock: {rockIsNaturalRock}");
-
-            int baseDamage = rockIsNaturalRock ? 80 : 40;
             var helperComp = jobDriver.pawn.GetHelperComponent();
 
             if (helperComp != null && helperComp.IsBeingHelped)
@@ -135,33 +123,83 @@ namespace Helpers
                     // Apply social thoughts for this helper
                     HelperSocialMechanics.ApplySocialThoughts(helper, actor, currentHelpers);
 
-                    // Calculate contribution based on helper skill
-                    int skillLevel = helper.skills.GetSkill(mineSkillDef)?.Level ?? 0;
+                    // Calculate experience gain for the helper
+                    float miningXP = 0.07f; // Base XP for Mining
+                    float helpingXP = 0.1f; // Base XP for Helping
+                    int miningSkillLevel = helper.skills.GetSkill(miningSkillDef)?.Level ?? 0;
 
-                    float contribution = 0.5f + (skillLevel / 40f);
-                    if (skillLevel < 5)
+                    // Apply penalties or bonuses based on skill level
+                    if (miningSkillLevel < 5)
                     {
-                        contribution -= 0.1f; // Penalty for low skill levels
+                        miningXP *= 0.8f; // Reduce XP for low skill levels
+                    }
+                    else if (miningSkillLevel >= 15)
+                    {
+                        miningXP *= 1.2f; // Increase XP for high skill levels
                     }
 
-                    // Calculate total contribution based on helper stats
-                    float helperStatValue = helper.GetStatValue(workSpeedStat);
-                    helperTotal += contribution * helperStatValue;
+                    // Add experience to the helper
+                    helper.skills.Learn(miningSkillDef, miningXP);
+                    helper.skills.GetSkill(helpingSkillDef).Learn(helpingXP);
 
-                    int helperLevel = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                    int adjustedAmount = (int)(baseDamage * (0.5f + (helperLevel / 40f)));
-
-                    Log.Message($"[Patch_PreFixMine] Base amount: {baseDamage}, Helper Level: {helperLevel}, Adjusted amount: {adjustedAmount}");
-
-                    // Add experience to helper
-                    helper.skills.Learn(mineSkillDef, 0.07f);
-                    helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Learn(0.1f);
-                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} gained experience in {mineSkillDef.defName}");
-                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} gained experience in {DefDatabase<SkillDef>.GetNamed("Helping").defName}");
+                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} gained {miningXP} XP in {miningSkillDef.defName}");
+                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} gained {helpingXP} XP in {helpingSkillDef.defName}");
                 }
             }
+
+            DebugHelpers.DebugLog("HelperMechanics", $"Experience distributed to all helpers for assisting with mining.");
+        }
+
+
+
+        /// Calculates the adjusted mining damage amount by adding helpers' contributions.
+        /// </summary>
+        /// <param name="actor">The pawn who is mining.</param>
+        /// <param name="mineTarget">The target being mined.</param>
+        /// <param name="baseAmount">The base damage amount.</param>
+        /// <returns>The adjusted damage amount.</returns>
+        public static int CalculateAdjustedMiningDamage(Pawn actor, Thing mineTarget, int baseAmount)
+        {
+            SkillDef mineSkillDef = DefDatabase<SkillDef>.GetNamed("Mining");
+            float helperTotal = 0f;
+
+            BuildingProperties buildingProp = mineTarget.def.building;
+            DebugHelpers.DebugLog("HelperMechanics", $"MineTarget: {mineTarget}");
+
+            bool rockIsNaturalRock = buildingProp.isNaturalRock;
+            DebugHelpers.DebugLog("HelperMechanics", $"Is Natural Rock: {rockIsNaturalRock}");
+
+            int baseDamage = rockIsNaturalRock ? 80 : 40;
+            var helperComp = actor.GetHelperComponent();
+            List<Pawn> currentHelpers = helperComp?.CurrentHelpers;
+
+            if (helperComp != null && helperComp.IsBeingHelped)
+            {
+                foreach (Pawn helper in currentHelpers)
+                {
+                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} is assisting {actor.Name}");
+
+                    // Apply social thoughts for this helper
+                    HelperSocialMechanics.ApplySocialThoughts(helper, actor, currentHelpers);
+
+                    // Calculate helper level contribution
+                    int helperLevel = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+
+                    // Calculate helper multiplier based on level
+                    float helperMultiplier = Math.Min(1.0f, helperLevel / 20f); // Maxes at 1.0 for level 20
+
+                    // Split base damage and calculate contribution
+                    float halfBaseDamage = baseDamage / 2f;
+                    float contribution = halfBaseDamage + (halfBaseDamage * helperMultiplier);
+
+                    Log.Message($"[CalculateAdjustedMiningDamage] Base: {baseDamage}, Helper Level: {helperLevel}, Contribution: {contribution}");
+
+                    helperTotal += contribution;
+                }
+            }
+
             DebugHelpers.DebugLog("HelperMechanics", $"Total helper contribution to work speed: {helperTotal}");
-            return helperTotal;
+            return (int)(baseDamage + helperTotal); // Base damage plus all helper contributions
         }
 
         public static int TranspilerMineingTTPCHC(Pawn actor, int ticksToPickHit)
@@ -213,23 +251,23 @@ namespace Helpers
             return totalHelperContribution;
         }
 
-        public static void GrantSkillExperienceToHelpers(Pawn actor, SkillDef skill, float experienceAmount)
-        {
-            var helperComp = actor.GetHelperComponent();
-            List<Pawn> currentHelpers = helperComp.CurrentHelpers;
-            if (!helperComp.IsBeingHelped || currentHelpers.Count == 0)
-            {
-                return;
-            }
+        //public static void GrantSkillExperienceToHelpers(Pawn actor, SkillDef skill, float experienceAmount)
+        //{
+        //    var helperComp = actor.GetHelperComponent();
+        //    List<Pawn> currentHelpers = helperComp.CurrentHelpers;
+        //    if (!helperComp.IsBeingHelped || currentHelpers.Count == 0)
+        //    {
+        //        return;
+        //    }
 
-            foreach (var helper in currentHelpers)
-            {
-                if (helper.skills != null)
-                {
-                    helper.skills.Learn(skill, experienceAmount);
-                    DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} gained {experienceAmount} experience in {skill.defName} while helping {actor.Name}.");
-                }
-            }
-        }
+        //    foreach (var helper in currentHelpers)
+        //    {
+        //        if (helper.skills != null)
+        //        {
+        //            helper.skills.Learn(skill, experienceAmount);
+        //            DebugHelpers.DebugLog("HelperMechanics", $"{helper.Name} gained {experienceAmount} experience in {skill.defName} while helping {actor.Name}.");
+        //        }
+        //    }
+        //}
     }
 }

@@ -63,11 +63,10 @@ public static class Patch_PreFixMine
 
         var helperComp = actor.GetHelperComponent();
         BuildingProperties buildprop = (BuildingProperties)building;
-        float helperContribution = HelperMechanics.MineingCHC(
+        HelperMechanics.DistributeMiningXP(
                actor,
                curDriver,
                helperComp.CurrentHelpers,
-               StatDefOf.MiningSpeed,
                mineTarget,
                building
            );
@@ -78,32 +77,32 @@ public static class Patch_PreFixMine
         ticksToPickHit = HelperMechanics.TranspilerMineingTTPCHC(actor, ticksToPickHit);
         ticksToPickHitField.SetValue(curDriver, ticksToPickHit);
 
-        if (helperComp != null && helperComp.IsBeingHelped)
-        {
-            int amount = ((int)helperContribution);
+        //if (helperComp != null && helperComp.IsBeingHelped)
+        //{
+        //    int amount = ((int)helperContribution);
 
-            int CurrentHitPoints = (int)hitPoints;
-            Map CurrentMap = (Map)map;
-            if (!(mineTarget is Mineable mineable2) || CurrentHitPoints > amount)
-            {
-                DamageInfo dinfo = new DamageInfo(DamageDefOf.Mining, amount, 0f, -1f, actor);
-                takeDamageMethod?.Invoke(mineTarget, new object[] { dinfo });
-            }
-            else
-            {
-                bool num = (bool)designationAtMethod?.Invoke(designationManager, new object[] { mineable2.Position, DesignationDefOf.MineVein });
-                mineable2.Notify_TookMiningDamage(CurrentHitPoints, mine.actor);
-                mineable2.HitPoints = 0;
-                mineable2.DestroyMined(actor);
-                if (num)
-                {
-                    IntVec3[] adjacentCells = GenAdj.AdjacentCells;
-                    foreach (IntVec3 adjacentCell in adjacentCells)
-                    {
-                        Designator_MineVein.FloodFillDesignations(position + adjacentCell, CurrentMap, mineable2.def);
-                    }
-                }
-            }
-        }
+        //    int CurrentHitPoints = (int)hitPoints;
+        //    Map CurrentMap = (Map)map;
+        //    if (!(mineTarget is Mineable mineable2) || CurrentHitPoints > amount)
+        //    {
+        //        DamageInfo dinfo = new DamageInfo(DamageDefOf.Mining, amount, 0f, -1f, actor);
+        //        takeDamageMethod?.Invoke(mineTarget, new object[] { dinfo });
+        //    }
+        //    else
+        //    {
+        //        bool num = (bool)designationAtMethod?.Invoke(designationManager, new object[] { mineable2.Position, DesignationDefOf.MineVein });
+        //        mineable2.Notify_TookMiningDamage(CurrentHitPoints, mine.actor);
+        //        mineable2.HitPoints = 0;
+        //        mineable2.DestroyMined(actor);
+        //        if (num)
+        //        {
+        //            IntVec3[] adjacentCells = GenAdj.AdjacentCells;
+        //            foreach (IntVec3 adjacentCell in adjacentCells)
+        //            {
+        //                Designator_MineVein.FloodFillDesignations(position + adjacentCell, CurrentMap, mineable2.def);
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

@@ -21,11 +21,12 @@ namespace Helpers
             { "Patch_PostFixCunstruction", false }, // Construction contribution patch
             { "Patch_PostToilsRecipe", false }, // Recipe work contribution patch
             { "SurgeryOutcomeSuccess", false }, // Handles surgery outcome success
-            { "HelpersInitializer", true }, // Logs initialization details
-            { "Patch_PlantSow", true },
+            { "HelpersInitializer", false }, // Logs initialization details
+            { "Patch_PlantSow", false },
             { "Patch_PlantWork", false },
-            { "Patch_PreFixMine", true },
-            { "ReflectionHelper", true }
+            { "Patch_PreFixMine", false },
+            { "Patch_transpiler", false },
+            { "ReflectionHelper", false }
         };
 
 
@@ -70,147 +71,19 @@ namespace Helpers
             }
         }
 
-
-    }
-
-    public static class ReflectionDebugger
-    {
-        public static void DebugInstanceFieldsAndProperties(object instance, string targetName, int maxDepth = 4)
+        /// <summary>
+        /// Logs the value of 'num' for debugging purposes.
+        /// </summary>
+        /// <param name="num">The value to log.</param>
+        public static void LogNumValue(int num)
         {
-            if (instance == null)
+            if (OverallLogging && ClassLoggingFlags.TryGetValue("Patch_transpiler", out bool isEnabled) && isEnabled)
             {
-                Log.Warning("ReflectionDebugger: Instance is null.");
                 return;
             }
-
-            var visited = new HashSet<object>();
-            var result = FindFieldOrPropertyPathRecursive(instance, targetName, "", maxDepth, visited);
-
-            if (string.IsNullOrEmpty(result))
-                Log.Warning($"ReflectionDebugger: Target variable '{targetName}' not found.");
-            else
-                Log.Message($"ReflectionDebugger: Found '{targetName}' at path: {result}");
+            Log.Message("[Helpers] num value: " + num);
         }
 
-        private static string FindFieldOrPropertyPathRecursive(object instance, string targetName, string path, int depth, HashSet<object> visited)
-        {
-            if (depth == 0 || instance == null || visited.Contains(instance))
-                return null;
-
-            visited.Add(instance);
-
-            var type = instance.GetType();
-            foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-            {
-                try
-                {
-                    var value = field.GetValue(instance);
-                    if (field.Name.Equals(targetName, StringComparison.OrdinalIgnoreCase))
-                        return $"{path}.{field.Name}";
-
-                    if (value != null)
-                    {
-                        var recursiveResult = FindFieldOrPropertyPathRecursive(value, targetName, $"{path}.{field.Name}", depth - 1, visited);
-                        if (!string.IsNullOrEmpty(recursiveResult))
-                            return recursiveResult;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Log.Warning($"ReflectionDebugger: Exception accessing field '{field.Name}': {e.Message}");
-                }
-            }
-
-            foreach (var property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-            {
-                if (property.GetIndexParameters().Length > 0) continue; // Skip indexed properties
-
-                try
-                {
-                    var value = property.GetValue(instance);
-                    if (property.Name.Equals(targetName, StringComparison.OrdinalIgnoreCase))
-                        return $"{path}.{property.Name}";
-
-                    if (value != null)
-                    {
-                        var recursiveResult = FindFieldOrPropertyPathRecursive(value, targetName, $"{path}.{property.Name}", depth - 1, visited);
-                        if (!string.IsNullOrEmpty(recursiveResult))
-                            return recursiveResult;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Log.Warning($"ReflectionDebugger: Exception accessing property '{property.Name}': {e.Message}");
-                }
-            }
-
-            if (instance is IEnumerable enumerable)
-            {
-                var index = 0;
-                foreach (var item in enumerable)
-                {
-                    if (item == null) continue;
-
-                    var recursiveResult = FindFieldOrPropertyPathRecursive(item, targetName, $"{path}[{index}]", depth - 1, visited);
-                    if (!string.IsNullOrEmpty(recursiveResult))
-                        return recursiveResult;
-
-                    index++;
-                }
-            }
-
-            return null;
-        }
-
-        public static void InspectObject(object obj, string context, int depth = 0)
-        {
-            if (obj == null || depth > 5) // Prevent infinite recursion
-            {
-                Log.Message($"{context}: (null or max depth reached)");
-                return;
-            }
-
-            var type = obj.GetType();
-            Log.Message($"{new string('-', depth)}Inspecting {context} (Type: {type.Name})");
-
-            // Log fields
-            foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
-            {
-                try
-                {
-                    var fieldValue = field.GetValue(obj);
-                    Log.Message($"{new string(' ', depth)}Field: {field.Name}, Type: {fieldValue?.GetType().Name ?? "null"}, Value: {fieldValue}");
-                    InspectObject(fieldValue, $"{context}.{field.Name}", depth + 1); // Recurse into the field
-                }
-                catch (Exception e)
-                {
-                    Log.Warning($"Could not inspect field {field.Name}: {e.Message}");
-                }
-            }
-
-            // Log properties
-            foreach (var property in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
-            {
-                try
-                {
-                    var propertyValue = property.GetValue(obj, null);
-                    Log.Message($"{new string(' ', depth)}Property: {property.Name}, Type: {propertyValue?.GetType().Name ?? "null"}, Value: {propertyValue}");
-                    InspectObject(propertyValue, $"{context}.{property.Name}", depth + 1); // Recurse into the property
-                }
-                catch (Exception e)
-                {
-                    Log.Warning($"Could not inspect property {property.Name}: {e.Message}");
-                }
-            }
-
-            // Log methods (not recursing into methods, just logging their names)
-            foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
-            {
-                Log.Message($"{new string(' ', depth)}Method: {method.Name}");
-            }
-        }
 
     }
-
-
 }
