@@ -37,12 +37,26 @@ namespace Helpers
                     if (tickCounter >= checkInterval)
                     {
                         tickCounter = 0; // Reset the counter
-
+                        targetHelperComp = TargetPawn.GetHelperComponent();
                         // If the target pawn moves, adjust the path accordingly
                         if (TargetPawn.Position != pawn.Position)
                         {
                             DebugHelpers.DebugLog("JobDriver_Helping", $"{pawn.Name} is moving to follow {TargetPawn.Name}.");
                             pawn.pather.StartPath(TargetPawn, PathEndMode.Touch);
+                        }
+
+                        // Check if the helper is still in the target pawn's component
+
+                        if (targetHelperComp.CurrentHelpers.Contains(pawn) == false)
+                        {
+                            targetHelperComp.AddHelper(pawn);
+                        }
+
+                        // Check if there are duplicate pawns in CurrentHelpers
+                        if (targetHelperComp.CurrentHelpers.Count(p => p == pawn) > 1)
+                        {
+                            DebugHelpers.DebugLog("JobDriver_Helping", $"Duplicate helper {pawn.Name} found for {TargetPawn.Name}.");
+                            targetHelperComp.RemoveHelper(pawn);
                         }
                     }
                 },

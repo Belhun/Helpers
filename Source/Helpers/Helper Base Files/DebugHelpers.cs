@@ -17,7 +17,7 @@ namespace Helpers
             { "FloatMenuMakerMap", false }, // Used for adding the "Help" option
             { "JobDriver_Helping", false }, // Relevant for the Helping job driver
             { "HelperSocialMechanics", false }, // Handles social thoughts logic
-            { "HelperMechanics", true }, // Core mechanics for helper contributions
+            { "HelperMechanics", false }, // Core mechanics for helper contributions
             { "Patch_PostFixCunstruction", false }, // Construction contribution patch
             { "Patch_PostToilsRecipe", false }, // Recipe work contribution patch
             { "SurgeryOutcomeSuccess", false }, // Handles surgery outcome success
