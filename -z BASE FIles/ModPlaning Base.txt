@@ -1,0 +1,197 @@
+﻿---
+
+# **RimWorld Mod: Pawns Helping Pawns**
+
+---
+
+## **Purpose of This Document**
+
+This document provides comprehensive information about the "Pawns Helping Pawns" RimWorld mod, including concepts, features, tasks, goals, and instructions for assisting with coding and development tasks. It also outlines how the assistant should interact during the coding assistance process.
+
+---
+
+## **Instructions for the Coding Assistant (GPT)**
+
+- **Role and Purpose:**
+  - You are assisting in developing the **"Pawns Helping Pawns"** RimWorld mod, providing coding help, debugging, and implementing new features.
+
+- **Understanding the Mod:**
+  - Read this entire document for context and details on the mod’s concepts, features, and goals.
+
+- **Code Assistance Process:**
+  - I will provide code in multiple messages.
+  - After each code message, ask: **"Is that all the code you're going to submit?"**
+  - Proceed only after I confirm with **"That's it."**
+  - After confirming all code is submitted, I will specify what I need help with.
+  - Use all provided information (this document + code) to assist effectively.
+
+- **Communication Style:**
+  - Maintain an informal, conversational tone.
+  - Ensure proper spelling.
+  - Ask for clarifications if needed.
+
+- **Development Focus:**
+  - Align all changes with the intended design and gameplay experience described here.
+  - When suggesting code changes, provide explanations and snippets.
+  - Consider RimWorld’s modding guidelines and best practices.
+
+---
+
+## **Terminology**
+
+- **Leader (Pawn):** Pawn that leads the tasks.
+- **Assistant (Pawn):** Pawn(s) helping the Leader.
+- **Support Team / Assistants (Pawns):** Group of pawns assisting a Leader Pawn.
+
+---
+
+## **Mod Concepts and Purpose**
+
+This mod focuses on pawns assisting each other. Selecting a pawn and right-clicking another pawn offers a "Help {Pawn Name}" option. If chosen, the selected pawn (Assistant) follows and aids the Leader Pawn. Assisted tasks become faster or more efficient. It’s also a way for pawns to learn skills from a more experienced Leader.
+
+---
+
+## **Balance Mechanics**
+
+### Quality Trade-Off System
+- More assistants can reduce the maximum possible quality after a certain number of helpers.
+
+### Helper Skill
+- At Level 0: Assistants contribute 50% normal speed.
+- At Level 10: Assistants contribute 75% normal speed.
+- At Level 20: Assistants contribute 100% normal speed.
+
+### Mood Buffs/Debuffs
+- Traits and relationships of assistants and leaders affect mood (e.g., Beautiful = +5, Ugly = -5).
+
+### Surgery System
+- High skill helpers improve surgery success.
+- Low skill helpers add failure risk.
+
+---
+
+## **Tasks That Can Be Assisted**
+
+- **Construction**
+- **Crafting** (including cooking and Bill system tasks)
+- **Plants** (Cutting, Harvesting, Sowing)
+- **Doctoring** (Bandaging, Treating Sickness, Surgeries)
+- **Mining**
+- **Cooking**
+- **Animal Handling** (Training - planned)
+
+---
+
+## **Implemented Features**
+
+- **"Help {Pawn Name}" Option:** Added to the right-click menu.
+- **Core Helper Mechanics:**
+  - Assistants learn the task skill and Helper Skill at a normal rate.
+  - Leaders can be helped in Construction, Crafting (including cooking), Plant Cutting, Doctoring (including surgeries), and Mining.
+  
+- **Mining Assistance:**
+  - Assistants help with mining, increasing speed and damage.
+  - **Adjusted Damage Formula for Mining:**
+    \[
+    \text{Adjusted Damage} = \text{Base Damage} + \sum_{\text{Helpers}} \left(\frac{\text{Base Damage}}{2} + \frac{\text{Base Damage}}{2} \times \min\left(1.0, \frac{\text{Helper Skill Level}}{20}\right)\right)
+    \]
+  - Each helper contributes additional damage based on their skill, capped at 100% effectiveness.
+
+- **Tracking System & Workaround:**
+  - Helpers follow Leaders everywhere.
+  - Tracks who is helping whom (list of assistants on each Leader).
+  - If `.CurrentHelpers` is cleared after loading a save, the JobDriver now re-adds the Assistant if they're not in `.CurrentHelpers`.
+  - Removes duplicate entries of the same Assistant if found.
+
+- **Settings:**
+  - Option to allow assistant contributions to unknown surgeries.
+  - Debug info toggle for unknown surgeries.
+  
+- **Helper Social Mechanics:**
+  - Rivalry, Friendship, Ugly, and Beautiful traits affecting mood.
+
+- **Debug System:**
+  - Debug commands for testing.
+  - Toggle debugging messages on/off.
+
+---
+
+## **In Progress**
+
+- **Bandaging/Treating Sickness:**  
+  Currently implementing or refining assistance for doctoring tasks such as bandaging wounds and treating sick pawns (beyond surgeries).
+
+---
+
+## **To-Do List**
+
+### **Testing Needed**
+- **Plant Work:** Test assisting in plant tasks like harvesting and sowing.
+- **Building Repair:** Check if assistants help with repairs.
+
+### **Core Mechanics**
+- Assistant’s carrying capacity and speed contributions.
+- UI improvements for assigning/monitoring assistants.
+- Multiple pawn selection and mass assignment.
+- Leader downed reaction system.
+- Surgery contribution re-evaluation.
+- More social mechanics (Divorced, etc.).
+- Debug system settings refinement.
+- Crafting/Building Quality Trade-Off finalization.
+
+### **Additional Features**
+- Animal Handling assistance.
+- Workshop photo and description.
+
+---
+
+## **Possible Features to Verify**
+- Plant Work (Harvesting/Sowing) status.
+- Building Repair assistance status.
+
+---
+
+## **Notes on User Interaction and Selection Mechanics**
+- Improve object selection when multiple things occupy the same tile (hover-selecting).
+
+---
+
+## **Debugging and Development Tools**
+- Debugging commands and toggle for messages.
+
+---
+
+## **Style and Tone Considerations**
+- Informal, conversational tone.
+- Proper spelling.
+- Consistent with RimWorld UI and experience.
+
+---
+
+## **Additional Notes**
+
+- **Writing Style Example:**
+  > "Okay, well, let's go back to the very beginning and talk a little bit more..."
+
+---
+
+## **Development Notes**
+- When using transpilers, use the User Debugger to more easily get code references.
+
+---
+
+## **Instructions Recap for the Coding Assistant (GPT)**
+
+- I will send code in multiple messages.
+- After each code message, ask: **"Is that all the code you're going to submit?"**
+- Wait for **"That's it."** before proceeding.
+- After confirming all code is submitted, I will specify the required assistance.
+- Use all provided info (document + code) to help fix issues, add features, or improve the mod.
+- Maintain informal, clear communication and proper spelling.
+- Ask for clarifications if needed.
+
+---
+
+**End of Document**
+
+---

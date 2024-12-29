@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <HediffDef>
+    <defName>CustomStatBoost</defName>
+    <label>custom stat boost</label>
+    <description>A hediff that significantly enhances various work-related stats.</description>
+    <isBad>false</isBad>
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <WorkSpeedGlobal>20</WorkSpeedGlobal>
+          <MedicalTendSpeed>20</MedicalTendSpeed>
+          <MedicalTendQuality>20</MedicalTendQuality>
+          <MedicalSurgerySuccessChance>20</MedicalSurgerySuccessChance>
+          <GeneralLaborSpeed>20</GeneralLaborSpeed>
+          <CookSpeed>20</CookSpeed>
+          <FoodPoisonChance>20</FoodPoisonChance>
+          <MiningSpeed>20</MiningSpeed>
+          <MiningYield>20</MiningYield>
+          <PlantWorkSpeed>20</PlantWorkSpeed>
+          <PlantHarvestYield>20</PlantHarvestYield>
+          <ConstructionSpeed>20</ConstructionSpeed>
+          <ConstructSuccessChance>20</ConstructSuccessChance>
+          <MoveSpeed>20</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>LeaderHediff</defName>
+    <label>leader boost</label>
+    <description>A boost provided to the leader when assisted.</description>
+    <isBad>false</isBad>
+    <hediffClass>HediffWithComps</hediffClass>
+    <stages>
+      <li>
+        <statOffsets>
+          <WorkSpeedGlobal>0</WorkSpeedGlobal>
+          <MedicalTendSpeed>0</MedicalTendSpeed>
+          <MedicalTendQuality>0</MedicalTendQuality>
+          <MedicalSurgerySuccessChance>0</MedicalSurgerySuccessChance>
+          <GeneralLaborSpeed>0</GeneralLaborSpeed>
+          <CookSpeed>0</CookSpeed>
+          <FoodPoisonChance>0</FoodPoisonChance>
+          <MiningSpeed>0</MiningSpeed>
+          <MiningYield>0</MiningYield>
+          <PlantWorkSpeed>0</PlantWorkSpeed>
+          <PlantHarvestYield>0</PlantHarvestYield>
+          <ConstructionSpeed>0</ConstructionSpeed>
+          <ConstructSuccessChance>0</ConstructSuccessChance>
+          <MoveSpeed>20</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+
+  <HediffDef>
+        <defName>AssistantHediff</defName>
+        <label>assistant boost</label>
+        <description>A boost provided to the assistant when helping.</description>
+        <hediffClass>HediffWithComps</hediffClass>
+        <comps>
+            <li Class="Helpers.AssistantHediffCompProperties_Stats">
+                <statOffsets>
+                    <Comfort>1</Comfort>
+                </statOffsets>
+            </li>
+        </comps>
+    </HediffDef>
+</Defs>
