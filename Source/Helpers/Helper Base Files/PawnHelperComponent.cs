@@ -78,6 +78,48 @@ namespace Helpers
             base.PostExposeData();
             Scribe_Collections.Look(ref CurrentHelpers, "CurrentHelpers", LookMode.Reference);
         }
+
+
+        /// <summary>
+        /// Validates the CurrentHelpers list by removing invalid helpers.
+        /// </summary>
+        public void ValidateHelpers()
+        {
+            if (CurrentHelpers.Count == 0)
+            {
+                DebugHelpers.DebugLog("PawnHelperComponent", $"{parent.LabelCap} has no helpers. Validation not needed.");
+                return;
+            }
+
+            // Track helpers to remove
+            var helpersToRemove = new List<Pawn>();
+
+            foreach (var helper in CurrentHelpers)
+            {
+                // Check if the helper is doing the Helping job
+                if (helper.jobs?.curJob?.def != DefDatabase<JobDef>.GetNamed("Helping"))
+                {
+                    DebugHelpers.DebugLog("PawnHelperComponent", $"{helper.Name} is not doing the Helping job and will be removed.");
+                    helpersToRemove.Add(helper);
+                    continue;
+                }
+
+                // Check if the helper's target is this pawn
+                var targetPawn = helper.jobs.curJob.targetA.Thing as Pawn;
+                if (targetPawn != parent)
+                {
+                    DebugHelpers.DebugLog("PawnHelperComponent", $"{helper.Name} is not helping the expected pawn {parent.LabelCap} and will be removed.");
+                    helpersToRemove.Add(helper);
+                }
+            }
+
+            // Remove invalid helpers
+            foreach (var helper in helpersToRemove)
+            {
+                RemoveHelper(helper);
+                DebugHelpers.DebugLog("PawnHelperComponent", $"{helper.Name} has been removed from {parent.LabelCap}'s helper list.");
+            }
+        }
     }
 
 

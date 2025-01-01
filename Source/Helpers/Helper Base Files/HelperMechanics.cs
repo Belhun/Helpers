@@ -12,6 +12,7 @@ namespace Helpers
 {
     public static class HelperMechanics
     {
+
         /// <summary>
         /// Calculates the contribution of helper pawns to the work speed of the main actor.
         /// </summary>

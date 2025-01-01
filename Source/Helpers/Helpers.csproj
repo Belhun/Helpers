@@ -2,10 +2,12 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Target Name="CopyCSAndTxtFiles" AfterTargets="Build">
-    <!-- Define the destination directories -->
+    <!-- Define the destination directory -->
     <PropertyGroup>
       <DestinationDir>D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\-z BASE FIles\</DestinationDir>
       <DefsDir>D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\1.5\Defs\</DefsDir>
+      <AboutDir>D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\About\</AboutDir>
+      <PatchesDir>D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\Patches\</PatchesDir>
     </PropertyGroup>
     <!-- Create the destination directory if it doesn't exist -->
     <MakeDir Directories="$(DestinationDir)" />
@@ -17,8 +19,13 @@
     <ItemGroup>
       <XmlFiles Include="$(DefsDir)**\*.xml" />
     </ItemGroup>
-    <!-- Copy the collected .cs, .txt, and .xml files to the destination directory without preserving folder structure -->
-    <Copy SourceFiles="@(SourceFiles);@(XmlFiles)" DestinationFolder="$(DestinationDir)" />
+    <!-- Collect all files from About and Patches folders -->
+    <ItemGroup>
+      <AboutFiles Include="$(AboutDir)**\*.*" />
+      <PatchesFiles Include="$(PatchesDir)**\*.*" />
+    </ItemGroup>
+    <!-- Copy all collected files to the destination directory without preserving folder structure -->
+    <Copy SourceFiles="@(SourceFiles);@(XmlFiles);@(AboutFiles);@(PatchesFiles)" DestinationFolder="$(DestinationDir)" />
   </Target>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -120,6 +127,9 @@
     </Content>
     <Content Include="..\..\1.5\Defs\ThoughtDef\Thoughts_Helpers.xml">
       <Link>Extra\Thoughts_Helpers.xml</Link>
+    </Content>
+    <Content Include="..\..\About\ModMetaData.xml">
+      <Link>Extra\ModMetaData.xml</Link>
     </Content>
     <Content Include="Extra\ModPlaning Base.txt" />
   </ItemGroup>
