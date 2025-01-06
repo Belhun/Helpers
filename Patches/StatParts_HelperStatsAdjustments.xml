@@ -16,12 +16,385 @@
       </value>
     </nomatch>
   </Operation>
-
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/StatDef[defName="MedicalTendSpeed"]/parts</xpath>
     <value>
-        <li Class="Helpers.StatPart_HelpersMedicalTendSpeed"/>
+      <li Class="Helpers.StatPart_HelpersMedicalTendSpeed"/>
+    </value>
+  </Operation>
+<!-- disabled for now, due to overpowerness, as this stacks with all the other work speed bonuses-->
+  <!--
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="WorkSpeedGlobal"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="WorkSpeedGlobal"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="WorkSpeedGlobal"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersWorkSpeed"/>
+    </value>
+  </Operation>
+-->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="MedicalTendQuality"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="MedicalTendQuality"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="MedicalTendQuality"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersMedicalTendQuality"/>
     </value>
   </Operation>
 
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="MedicalSurgerySuccessChance"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="MedicalSurgerySuccessChance"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="MedicalSurgerySuccessChance"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersMedicalSurgerySuccessChance"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="GeneralLaborSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="GeneralLaborSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="GeneralLaborSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersGeneralLaborSpeed"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="FoodPoisonChance"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="FoodPoisonChance"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="FoodPoisonChance"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersFoodPoisonChance"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="MiningSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="MiningSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="MiningSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersMiningSpeed"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="PlantWorkSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="PlantWorkSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="PlantWorkSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersPlantWorkSpeed"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="ConstructionSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="ConstructionSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="ConstructionSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersConstructionSpeed"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="ConstructSuccessChance"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="ConstructSuccessChance"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="ConstructSuccessChance"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersConstructSuccessChance"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="CarryingCapacity"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="CarryingCapacity"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="CarryingCapacity"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersCarryingCapacity"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="CookSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="CookSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="CookSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersCookingSpeed"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="ArrestSuccessChance"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="ArrestSuccessChance"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="ArrestSuccessChance"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersArrestSuccessChance"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="FixBrokenDownBuildingSuccessChance"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="FixBrokenDownBuildingSuccessChance"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="FixBrokenDownBuildingSuccessChance"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersFixConstructionChance"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="HackingSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="HackingSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="HackingSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersHackingSpeed"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="AnimalGatherSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="AnimalGatherSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="AnimalGatherSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersAnimalGatherSpeed"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="SmoothingSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="SmoothingSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="SmoothingSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersSmoothingSpeed"/>
+    </value>
+  </Operation>
+
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="PruningSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="PruningSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="PruningSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersPruningSpeed"/>
+    </value>
+  </Operation>
+
+
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="TameAnimalChance"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="TameAnimalChance"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="TameAnimalChance"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersTameAnimalChance"/>
+    </value>
+  </Operation>
+
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="TrainAnimalChance"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="TrainAnimalChance"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="TrainAnimalChance"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersTrainAnimalChance"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="SuppressionPower"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="SuppressionPower"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="SuppressionPower"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersSuppressionPower"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="ButcheryFleshSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="ButcheryFleshSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="ButcheryFleshSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersButcherySpeed"/>
+    </value>
+  </Operation>
+
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="ButcheryMechanoidSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="ButcheryMechanoidSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="ButcheryMechanoidSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelpersMechanoidShreddingSpeed"/>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/StatDef[defName="SmeltingSpeed"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/StatDef[defName="SmeltingSpeed"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="SmeltingSpeed"]/parts</xpath>
+    <value>
+      <li Class="Helpers.StatPart_HelperSmeltingSpeed"/>
+    </value>
+  </Operation>
+  
 </Patch>

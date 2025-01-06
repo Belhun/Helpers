@@ -26,7 +26,7 @@ namespace Helpers
             { "Patch_PlantWork", false },
             { "Patch_PreFixMine", false },
             { "Patch_transpiler", false },
-            { "LeaderHediff", true },
+            { "LeaderHediff", false },
             { "LeaderHediffComp_Stats", false },
             { "StatPart_MovementSpeed", false },
             { "StatPart_HelpersMedicalTendSpeed", false },

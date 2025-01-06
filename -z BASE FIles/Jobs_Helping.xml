@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<Defs>
-  <JobDef>
-    <defName>Helping</defName>
-    <driverClass>Helpers.JobDriver_Helping</driverClass> 
-    <reportString>Assisting TargetA.</reportString>
-    <label>Helping</label> 
-  </JobDef>
-</Defs>

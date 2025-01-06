@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<Defs> 
-  <SkillDef>
-    <defName>Helping</defName>
-    <label>Helping</label>
-    <skillLabel>Helping</skillLabel>
-    <description>The skill of assisting others efficiently in various tasks, from crafting to cooking.</description>
-  </SkillDef>
-</Defs>

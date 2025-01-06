@@ -24,7 +24,7 @@ namespace Helpers
     {
         private Pawn TargetPawn => (Pawn)job.targetA.Thing; // The pawn being helped
         private int tickCounter = 0; // Counter to track ticks
-        private const int checkInterval = 30; // Check every 10 ticks
+        private const int checkInterval = 40; // Check every 10 ticks
 
 
 
@@ -54,6 +54,11 @@ namespace Helpers
                     {
                         tickCounter = 0; // Reset the counter
                         targetHelperComp = TargetPawn.GetHelperComponent();
+                        foreach (var helper in targetHelperComp.CurrentHelpers)
+                        {
+                            DebugHelpers.DebugLog("JobDriver_Helping", $"{helper.Name} is helping {TargetPawn.Name}.");
+                            HelperSocialMechanics.ApplySocialThoughts(helper, TargetPawn, targetHelperComp.CurrentHelpers);
+                        }
                         // If the target pawn moves, adjust the path accordingly
                         if (TargetPawn.Position != pawn.Position)
                         {
