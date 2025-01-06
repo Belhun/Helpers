@@ -28,6 +28,7 @@ namespace Helpers
             { "Patch_transpiler", false },
             { "LeaderHediff", false },
             { "LeaderHediffComp_Stats", false },
+            { "SkillRecord_Learn_Patch", true },
             { "StatPart_MovementSpeed", false },
             { "StatPart_HelpersMedicalTendSpeed", false },
             { "ReflectionHelper", false }
