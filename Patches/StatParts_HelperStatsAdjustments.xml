@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
+
+<!-- Adds in the Helpers comp to Pawns -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/ThingDef[thingClass="Pawn"]/comps</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[thingClass="Pawn"]</xpath>
+      <value>
+        <parts />
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[thingClass="Pawn"]/comps</xpath>
+    <value>
+      <li Class="Helpers.CompProperties_PawnHelper"/>
+    </value>
+  </Operation>
+
+
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/StatDef[defName="MoveSpeed"]/parts</xpath>
     <value>
@@ -22,8 +41,7 @@
       <li Class="Helpers.StatPart_HelpersMedicalTendSpeed"/>
     </value>
   </Operation>
-<!-- disabled for now, due to overpowerness, as this stacks with all the other work speed bonuses-->
-  <!--
+<!-- was disabled but gonna see how stats look with it on now-->
   <Operation Class="PatchOperationConditional">
     <xpath>/Defs/StatDef[defName="WorkSpeedGlobal"]/parts</xpath>
     <nomatch Class="PatchOperationAdd">
@@ -39,7 +57,7 @@
       <li Class="Helpers.StatPart_HelpersWorkSpeed"/>
     </value>
   </Operation>
--->
+
   <Operation Class="PatchOperationConditional">
     <xpath>/Defs/StatDef[defName="MedicalTendQuality"]/parts</xpath>
     <nomatch Class="PatchOperationAdd">
@@ -88,7 +106,7 @@
     </value>
   </Operation>
 
-  <Operation Class="PatchOperationConditional">
+  <!-- <Operation Class="PatchOperationConditional">
     <xpath>/Defs/StatDef[defName="FoodPoisonChance"]/parts</xpath>
     <nomatch Class="PatchOperationAdd">
       <xpath>/Defs/StatDef[defName="FoodPoisonChance"]</xpath>
@@ -102,7 +120,7 @@
     <value>
       <li Class="Helpers.StatPart_HelpersFoodPoisonChance"/>
     </value>
-  </Operation>
+  </Operation> -->
 
   <Operation Class="PatchOperationConditional">
     <xpath>/Defs/StatDef[defName="MiningSpeed"]/parts</xpath>
@@ -347,7 +365,7 @@
       <li Class="Helpers.StatPart_HelpersSuppressionPower"/>
     </value>
   </Operation>
-
+<!-- 
   <Operation Class="PatchOperationConditional">
     <xpath>/Defs/StatDef[defName="ButcheryFleshSpeed"]/parts</xpath>
     <nomatch Class="PatchOperationAdd">
@@ -395,6 +413,6 @@
     <value>
       <li Class="Helpers.StatPart_HelperSmeltingSpeed"/>
     </value>
-  </Operation>
+  </Operation> -->
   
 </Patch>

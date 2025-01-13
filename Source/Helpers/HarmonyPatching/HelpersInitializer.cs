@@ -150,4 +150,31 @@ namespace Helpers
             }
         }
     }
+
+    [HarmonyPatch(typeof(PlaySettings), "DoPlaySettingsGlobalControls")]
+    public static class PlaySettings_DoPlaySettingsGlobalControls_Patch
+    {
+        public static void Postfix(WidgetRow row, bool worldView)
+        {
+            // Add the button only if we're in the main game view (not the world view)
+            if (!worldView && Find.CurrentMap != null)
+            {
+                // Define tooltip text
+                string tooltip = "Open the Helpers Menu to manage helpers.";
+
+                // Add the button to the row
+                if (row.ButtonIcon(TexButton.HelpersIcon, tooltip))
+                {
+                    // Open the Helpers UI when the button is clicked
+                    Find.WindowStack.Add(new Dialog_PawnAssignment());
+                }
+            }
+        }
+    }
+    [StaticConstructorOnStartup]
+    public static class TexButton
+    {
+        public static readonly Texture2D HelpersIcon = ContentFinder<Texture2D>.Get("UI/HelpersIcon2");
+    }
+
 }

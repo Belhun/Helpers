@@ -31,9 +31,10 @@ namespace Helpers
             { "SkillRecord_Learn_Patch", true },
             { "StatPart_MovementSpeed", false },
             { "StatPart_HelpersMedicalTendSpeed", false },
+            { "AssignIdlePawnsToHelp", true },
             { "ReflectionHelper", false }
         };
-
+        
 
         /// <summary>
         /// Logs a message if logging is enabled for the specified class/feature.

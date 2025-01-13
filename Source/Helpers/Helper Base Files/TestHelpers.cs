@@ -8,6 +8,37 @@ namespace Helpers.Testing
 {
     public static class TestHelpers
     {
+        [DebugAction("Helpers Debug", "Log All Pawns' Jobs", allowedGameStates = AllowedGameStates.Playing)]
+        public static void DebugLogAllPawnsJobs()
+        {
+            DebugHelpers.DebugLog("LogAllPawnsCurrentJobs", "Logging all pawns and their current jobs:");
+
+            foreach (Pawn pawn in Find.CurrentMap.mapPawns.FreeColonists)
+            {
+                // Check if the pawn has a current job
+                if (pawn.CurJob != null)
+                {
+                    string jobLabel = pawn.CurJob.def.label;
+                    string jobTarget = pawn.CurJob.targetA.Thing?.LabelShortCap ?? "No target";
+                    string jobState = pawn.jobs.curDriver?.ToString() ?? "No driver";
+
+                    DebugHelpers.DebugLog("LogAllPawnsCurrentJobs",
+                        $"{pawn.LabelShortCap}: Current Job: {jobLabel}, Target: {jobTarget}, Driver: {jobState}");
+                }
+                else
+                {
+                    DebugHelpers.DebugLog("LogAllPawnsCurrentJobs", $"{pawn.LabelShortCap}: No job assigned.");
+                }
+            }
+
+            DebugHelpers.DebugLog("LogAllPawnsCurrentJobs", "Finished logging all pawns.");
+        }
+
+        [DebugAction("Helpers Debug", "Show Test Menu", actionType = DebugActionType.Action)]
+        public static void ShowTestMenu()
+        {
+            Find.WindowStack.Add(new Dialog_PawnAssignment());
+        }
 
         [DebugAction("Helpers Debug", "Check Helper Component", allowedGameStates = AllowedGameStates.Playing)]
         public static void CheckHelperComponent()
@@ -79,39 +110,6 @@ namespace Helpers.Testing
             }
         }
 
-
-        //[DebugAction("Helpers Debug", "Test SurgeryOutcomeComp_Helpers", allowedGameStates = AllowedGameStates.Playing)]
-        //public static void TestSurgeryOutcomeCompHelpers()
-        //{
-        //    // Create a fake surgeon and patient
-        //    Pawn surgeon = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
-        //    Pawn patient = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
-
-        //    // Add the PawnHelperComponent to the surgeon
-        //    var helperComp = new PawnHelperComponent { parent = surgeon };
-        //    surgeon.AllComps.Add(helperComp);
-
-        //    // Create helper pawns
-        //    var helper1 = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
-        //    var helper2 = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
-
-        //    // Assign skill levels to helpers
-        //    helper1.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Medicine")).Level = 8; // High skill
-        //    helper2.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Medicine")).Level = 3; // Low skill
-
-        //    // Add helpers to the surgeon's component
-        //    helperComp.AddHelper(helper1);
-        //    helperComp.AddHelper(helper2);
-
-        //    // Simulate surgery
-        //    float quality = 1.0f; // Base quality
-        //    var surgeryComp = new SurgeryOutcomeComp_Helpers();
-        //    surgeryComp.AffectQuality(null, surgeon, patient, new List<Thing>(), null, null, ref quality);
-
-        //    // Log the final result
-        //    Log.Message($"[Test] Final surgery quality: {quality}");
-        //}
-
         [DebugAction("Helpers Debug", "Check Stat Values", allowedGameStates = AllowedGameStates.Playing)]
         public static void CheckStatValues()
         {
@@ -119,20 +117,20 @@ namespace Helpers.Testing
             if (selectedPawn != null)
             {
                 StatDef[] statsToCheck = {
-            StatDefOf.WorkSpeedGlobal,
-            StatDefOf.MedicalTendSpeed,
-            StatDefOf.MedicalTendQuality,
-            StatDefOf.MedicalSurgerySuccessChance,
-            StatDefOf.GeneralLaborSpeed,
-            StatDefOf.MoveSpeed,
-            StatDefOf.FoodPoisonChance,
-            StatDefOf.MiningSpeed,
-            StatDefOf.MiningYield,
-            StatDefOf.PlantWorkSpeed,
-            StatDefOf.PlantHarvestYield,
-            StatDefOf.ConstructionSpeed,
-            StatDefOf.ConstructSuccessChance
-        };
+                    StatDefOf.WorkSpeedGlobal,
+                    StatDefOf.MedicalTendSpeed,
+                    StatDefOf.MedicalTendQuality,
+                    StatDefOf.MedicalSurgerySuccessChance,
+                    StatDefOf.GeneralLaborSpeed,
+                    StatDefOf.MoveSpeed,
+                    StatDefOf.FoodPoisonChance,
+                    StatDefOf.MiningSpeed,
+                    StatDefOf.MiningYield,
+                    StatDefOf.PlantWorkSpeed,
+                    StatDefOf.PlantHarvestYield,
+                    StatDefOf.ConstructionSpeed,
+                    StatDefOf.ConstructSuccessChance
+                };
 
                 foreach (var stat in statsToCheck)
                 {

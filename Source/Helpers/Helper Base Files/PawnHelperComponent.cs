@@ -37,7 +37,7 @@ namespace Helpers
     {
         public List<Pawn> CurrentHelpers = new List<Pawn>();
         public bool IsBeingHelped => CurrentHelpers.Count > 0;
-
+        public SkillDef CurreentSkillDef;
         /// <summary>
         /// Adds a helper to the pawn's helper list.
         /// </summary>
@@ -49,6 +49,17 @@ namespace Helpers
                 DebugHelpers.DebugLog("PawnHelperComponent", $"{helper.Name} is now helping {parent.LabelCap}.");
             }
         }
+        ///// <summary>
+        ///// Updates the Current Skill being worked on.
+        ///// </summary>
+        //public void UpdateCurrentUsedSkill(Pawn Mainpawn)
+        //{
+             
+        //    CurreentSkillDef = Mainpawn.jobs.curDriver.ActiveSkill;
+
+        //}
+
+
 
         /// <summary>
         /// Removes a helper from the pawn's helper list.

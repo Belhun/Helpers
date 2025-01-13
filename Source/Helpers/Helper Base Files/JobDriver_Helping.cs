@@ -59,6 +59,9 @@ namespace Helpers
                             DebugHelpers.DebugLog("JobDriver_Helping", $"{helper.Name} is helping {TargetPawn.Name}.");
                             HelperSocialMechanics.ApplySocialThoughts(helper, TargetPawn, targetHelperComp.CurrentHelpers);
                         }
+
+                        //targetHelperComp.UpdateCurrentUsedSkill(TargetPawn);
+
                         // If the target pawn moves, adjust the path accordingly
                         if (TargetPawn.Position != pawn.Position)
                         {

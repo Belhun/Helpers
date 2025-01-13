@@ -68,69 +68,69 @@ namespace Helpers
         }
     }
     // disabled for now, due to overpowerness, as this stacks with all the other work speed bonuses
-    //public class StatPart_HelpersWorkSpeed : StatPart
-    //{
-    //    public override void TransformValue(StatRequest req, ref float val)
-    //    {
-    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
+    public class StatPart_HelpersWorkSpeed : StatPart
+    {
+        public override void TransformValue(StatRequest req, ref float val)
+    {
+        if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
 
-    //        var helperComp = pawn.GetHelperComponent();
-    //        helperComp?.ValidateHelpers();
-    //        if (helperComp == null || !helperComp.IsBeingHelped) return;
+        var helperComp = pawn.GetHelperComponent();
+        helperComp?.ValidateHelpers();
+        if (helperComp == null || !helperComp.IsBeingHelped) return;
 
-    //        float totalContribution = 0f;
-    //        foreach (var helper in helperComp.CurrentHelpers)
-    //        {
-    //            // Get the helper's MedicalTendSpeed stat
-    //            float helperMovementSpeed = helper.GetStatValue(StatDefOf.WorkSpeedGlobal);
+        float totalContribution = 0f;
+        foreach (var helper in helperComp.CurrentHelpers)
+        {
+            // Get the helper's MedicalTendSpeed stat
+            float helperMovementSpeed = helper.GetStatValue(StatDefOf.WorkSpeedGlobal);
 
-    //            // Scale contribution based on the helper's Helping skill level
-    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
+            // Scale contribution based on the helper's Helping skill level
+            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+            float contributionFactor = 0.2f + (helpingSkill / 40f);
 
-    //            totalContribution += helperMovementSpeed * contributionFactor;
+            totalContribution += helperMovementSpeed * contributionFactor;
 
-    //            DebugHelpers.DebugLog("StatPart_HelpersWorkSpeed", $"Helper {helper.Name} - WorkSpeedGlobal: {helperMovementSpeed * 100:F1}%");
-    //            DebugHelpers.DebugLog("StatPart_HelpersWorkSpeed", $"Helper {helper.Name} - Helping Skill: {helpingSkill}, Contribution Factor: {contributionFactor:F2}");
-    //            DebugHelpers.DebugLog("StatPart_HelpersWorkSpeed", $"Helper {helper.Name} - Contributed: {helperMovementSpeed * contributionFactor * 100:F1}%");
-    //        }
-
-
-    //        // Add the total contribution to the primary pawn's stat value
-    //        val += totalContribution;
-
-    //        DebugHelpers.DebugLog("StatPart_HelpersWorkSpeed", $" Adjusted MedicalTendSpeed for {pawn.Name}: {val} (Helpers: {helperComp.CurrentHelpers.Count})");
-    //    }
+            DebugHelpers.DebugLog("StatPart_HelpersWorkSpeed", $"Helper {helper.Name} - WorkSpeedGlobal: {helperMovementSpeed * 100:F1}%");
+            DebugHelpers.DebugLog("StatPart_HelpersWorkSpeed", $"Helper {helper.Name} - Helping Skill: {helpingSkill}, Contribution Factor: {contributionFactor:F2}");
+            DebugHelpers.DebugLog("StatPart_HelpersWorkSpeed", $"Helper {helper.Name} - Contributed: {helperMovementSpeed * contributionFactor * 100:F1}%");
+        }
 
 
+        // Add the total contribution to the primary pawn's stat value
+        val += totalContribution;
 
-    //    public override string ExplanationPart(StatRequest req)
-    //    {
-    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
-
-    //        // Get the helper component from the pawn
-    //        var helperComp = pawn.GetHelperComponent();
-    //        helperComp?.ValidateHelpers();
-    //        if (helperComp == null || !helperComp.IsBeingHelped) return null;
-
-    //        float totalContribution = 0f;
-    //        foreach (var helper in helperComp.CurrentHelpers)
-    //        {
-    //            // Get the helper's MedicalTendSpeed stat
-    //            float helperMovementSpeed = helper.GetStatValue(StatDefOf.WorkSpeedGlobal);
-
-    //            // Scale contribution based on the helper's Helping skill level
-    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
-
-    //            totalContribution += helperMovementSpeed * contributionFactor;
-    //        }
+        DebugHelpers.DebugLog("StatPart_HelpersWorkSpeed", $" Adjusted MedicalTendSpeed for {pawn.Name}: {val} (Helpers: {helperComp.CurrentHelpers.Count})");
+    }
 
 
-    //        // Return the explanation for the movement speed adjustment
-    //        return $"Helpers: +{totalContribution} Global Work Speed ({helperComp.CurrentHelpers.Count} helpers)";
-    //    }
-    //}
+
+    public override string ExplanationPart(StatRequest req)
+    {
+        if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
+
+        // Get the helper component from the pawn
+        var helperComp = pawn.GetHelperComponent();
+        helperComp?.ValidateHelpers();
+        if (helperComp == null || !helperComp.IsBeingHelped) return null;
+
+        float totalContribution = 0f;
+        foreach (var helper in helperComp.CurrentHelpers)
+        {
+            // Get the helper's MedicalTendSpeed stat
+            float helperMovementSpeed = helper.GetStatValue(StatDefOf.WorkSpeedGlobal);
+
+            // Scale contribution based on the helper's Helping skill level
+            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+            float contributionFactor = 0.5f + (helpingSkill / 40f);
+
+            totalContribution += helperMovementSpeed * contributionFactor;
+        }
+
+
+        // Return the explanation for the movement speed adjustment
+        return $"Helpers: +{totalContribution * 100:F1}% Global Work Speed ({helperComp.CurrentHelpers.Count} helpers)";
+    }
+}
 
 
     public class StatPart_HelpersMedicalTendSpeed : StatPart
@@ -353,53 +353,53 @@ namespace Helpers
     }
 
 
-    public class StatPart_HelpersFoodPoisonChance : StatPart
-    {
-        public override void TransformValue(StatRequest req, ref float val)
-        {
-            if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
+    //public class StatPart_HelpersFoodPoisonChance : StatPart
+    //{
+    //    public override void TransformValue(StatRequest req, ref float val)
+    //    {
+    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
 
-            var helperComp = pawn.GetHelperComponent();
-            helperComp?.ValidateHelpers();
-            if (helperComp == null || !helperComp.IsBeingHelped) return;
+    //        var helperComp = pawn.GetHelperComponent();
+    //        helperComp?.ValidateHelpers();
+    //        if (helperComp == null || !helperComp.IsBeingHelped) return;
 
-            float totalContribution = 0f;
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                float helperStat = helper.GetStatValue(StatDefOf.FoodPoisonChance);
-                int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                float contributionFactor = 0.5f + (helpingSkill / 40f);
+    //        float totalContribution = 0f;
+    //        foreach (var helper in helperComp.CurrentHelpers)
+    //        {
+    //            float helperStat = helper.GetStatValue(StatDefOf.FoodPoisonChance);
+    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
 
-                totalContribution += helperStat * contributionFactor;
+    //            totalContribution += helperStat * contributionFactor;
 
-                DebugHelpers.DebugLog("StatPart_HelpersFoodPoisonChance", $"{helper.Name} contributed {helperStat * contributionFactor:F2} to FoodPoisonChance.");
-            }
+    //            DebugHelpers.DebugLog("StatPart_HelpersFoodPoisonChance", $"{helper.Name} contributed {helperStat * contributionFactor:F2} to FoodPoisonChance.");
+    //        }
 
-            val += totalContribution;
-            DebugHelpers.DebugLog("StatPart_HelpersFoodPoisonChance", $"Adjusted FoodPoisonChance for {pawn.Name}: {val}");
-        }
+    //        val += totalContribution;
+    //        DebugHelpers.DebugLog("StatPart_HelpersFoodPoisonChance", $"Adjusted FoodPoisonChance for {pawn.Name}: {val}");
+    //    }
 
-        public override string ExplanationPart(StatRequest req)
-        {
-            if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
+    //    public override string ExplanationPart(StatRequest req)
+    //    {
+    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
 
-            var helperComp = pawn.GetHelperComponent();
-            helperComp?.ValidateHelpers();
-            if (helperComp == null || !helperComp.IsBeingHelped) return null;
+    //        var helperComp = pawn.GetHelperComponent();
+    //        helperComp?.ValidateHelpers();
+    //        if (helperComp == null || !helperComp.IsBeingHelped) return null;
 
-            float totalContribution = 0f;
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                float helperStat = helper.GetStatValue(StatDefOf.FoodPoisonChance);
-                int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                float contributionFactor = 0.5f + (helpingSkill / 40f);
+    //        float totalContribution = 0f;
+    //        foreach (var helper in helperComp.CurrentHelpers)
+    //        {
+    //            float helperStat = helper.GetStatValue(StatDefOf.FoodPoisonChance);
+    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
 
-                totalContribution += helperStat * contributionFactor;
-            }
+    //            totalContribution += helperStat * contributionFactor;
+    //        }
 
-            return $"Helpers: +{totalContribution * 100:F1}% Food Poison Chance ({helperComp.CurrentHelpers.Count} helpers)";
-        }
-    }
+    //        return $"Helpers: +{totalContribution * 100:F1}% Food Poison Chance ({helperComp.CurrentHelpers.Count} helpers)";
+    //    }
+    //}
 
     public class StatPart_HelpersMiningSpeed : StatPart
     {
@@ -1129,146 +1129,146 @@ namespace Helpers
             return $"Helpers: +{totalContribution * 100:F1}% Suppression Power ({helperComp.CurrentHelpers.Count} helpers)";
         }
     }
-    public class StatPart_HelpersButcherySpeed : StatPart
-    {
-        public override void TransformValue(StatRequest req, ref float val)
-        {
-            if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
+    //public class StatPart_HelpersButcherySpeed : StatPart
+    //{
+    //    public override void TransformValue(StatRequest req, ref float val)
+    //    {
+    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
 
-            var helperComp = pawn.GetHelperComponent();
-            helperComp?.ValidateHelpers();
-            if (helperComp == null || !helperComp.IsBeingHelped) return;
+    //        var helperComp = pawn.GetHelperComponent();
+    //        helperComp?.ValidateHelpers();
+    //        if (helperComp == null || !helperComp.IsBeingHelped) return;
 
-            float totalContribution = 0f;
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Cooking")).Level;
-                int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                float contributionFactor = 0.5f + (helpingSkill / 40f);
+    //        float totalContribution = 0f;
+    //        foreach (var helper in helperComp.CurrentHelpers)
+    //        {
+    //            float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Cooking")).Level;
+    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
 
-                totalContribution += helperStat * contributionFactor;
-                DebugHelpers.DebugLog("StatPart_HelpersButcherySpeed", $"{helper.Name} contributed {helperStat * contributionFactor:F2} to ButcherySpeed.");
-            }
+    //            totalContribution += helperStat * contributionFactor;
+    //            DebugHelpers.DebugLog("StatPart_HelpersButcherySpeed", $"{helper.Name} contributed {helperStat * contributionFactor:F2} to ButcherySpeed.");
+    //        }
 
-            val += totalContribution;
-            DebugHelpers.DebugLog("StatPart_HelpersButcherySpeed", $"Adjusted ButcherySpeed for {pawn.Name}: {val}");
-        }
+    //        val += totalContribution;
+    //        DebugHelpers.DebugLog("StatPart_HelpersButcherySpeed", $"Adjusted ButcherySpeed for {pawn.Name}: {val}");
+    //    }
 
-        public override string ExplanationPart(StatRequest req)
-        {
-            if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
+    //    public override string ExplanationPart(StatRequest req)
+    //    {
+    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
 
-            var helperComp = pawn.GetHelperComponent();
-            helperComp?.ValidateHelpers();
-            if (helperComp == null || !helperComp.IsBeingHelped) return null;
+    //        var helperComp = pawn.GetHelperComponent();
+    //        helperComp?.ValidateHelpers();
+    //        if (helperComp == null || !helperComp.IsBeingHelped) return null;
 
-            float totalContribution = 0f;
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Cooking")).Level;
-                int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                float contributionFactor = 0.5f + (helpingSkill / 40f);
+    //        float totalContribution = 0f;
+    //        foreach (var helper in helperComp.CurrentHelpers)
+    //        {
+    //            float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Cooking")).Level;
+    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
 
-                totalContribution += helperStat * contributionFactor;
-            }
+    //            totalContribution += helperStat * contributionFactor;
+    //        }
 
-            return $"Helpers: +{totalContribution:F1}% Butchery Speed ({helperComp.CurrentHelpers.Count} helpers)";
-        }
-    }
+    //        return $"Helpers: +{totalContribution:F1}% Butchery Speed ({helperComp.CurrentHelpers.Count} helpers)";
+    //    }
+    //}
 
-    public class StatPart_HelpersMechanoidShreddingSpeed : StatPart
-    {
-        public override void TransformValue(StatRequest req, ref float val)
-        {
-            if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
+    //public class StatPart_HelpersMechanoidShreddingSpeed : StatPart
+    //{
+    //    public override void TransformValue(StatRequest req, ref float val)
+    //    {
+    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
 
-            var helperComp = pawn.GetHelperComponent();
-            helperComp?.ValidateHelpers();
-            if (helperComp == null || !helperComp.IsBeingHelped) return;
+    //        var helperComp = pawn.GetHelperComponent();
+    //        helperComp?.ValidateHelpers();
+    //        if (helperComp == null || !helperComp.IsBeingHelped) return;
 
-            float totalContribution = 0f;
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Crafting")).Level;
-                int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                float contributionFactor = 0.5f + (helpingSkill / 40f);
+    //        float totalContribution = 0f;
+    //        foreach (var helper in helperComp.CurrentHelpers)
+    //        {
+    //            float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Crafting")).Level;
+    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
 
-                totalContribution += helperStat * contributionFactor;
-                DebugHelpers.DebugLog("StatPart_HelpersMechanoidShreddingSpeed", $"{helper.Name} contributed {helperStat * contributionFactor:F2} to MechanoidShreddingSpeed.");
-            }
+    //            totalContribution += helperStat * contributionFactor;
+    //            DebugHelpers.DebugLog("StatPart_HelpersMechanoidShreddingSpeed", $"{helper.Name} contributed {helperStat * contributionFactor:F2} to MechanoidShreddingSpeed.");
+    //        }
 
-            val += totalContribution;
-            DebugHelpers.DebugLog("StatPart_HelpersMechanoidShreddingSpeed", $"Adjusted MechanoidShreddingSpeed for {pawn.Name}: {val}");
-        }
+    //        val += totalContribution;
+    //        DebugHelpers.DebugLog("StatPart_HelpersMechanoidShreddingSpeed", $"Adjusted MechanoidShreddingSpeed for {pawn.Name}: {val}");
+    //    }
 
-        public override string ExplanationPart(StatRequest req)
-        {
-            if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
+    //    public override string ExplanationPart(StatRequest req)
+    //    {
+    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
 
-            var helperComp = pawn.GetHelperComponent();
-            helperComp?.ValidateHelpers();
-            if (helperComp == null || !helperComp.IsBeingHelped) return null;
+    //        var helperComp = pawn.GetHelperComponent();
+    //        helperComp?.ValidateHelpers();
+    //        if (helperComp == null || !helperComp.IsBeingHelped) return null;
 
-            float totalContribution = 0f;
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Crafting")).Level;
-                int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                float contributionFactor = 0.5f + (helpingSkill / 40f);
+    //        float totalContribution = 0f;
+    //        foreach (var helper in helperComp.CurrentHelpers)
+    //        {
+    //            float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Crafting")).Level;
+    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
 
-                totalContribution += helperStat * contributionFactor;
-            }
+    //            totalContribution += helperStat * contributionFactor;
+    //        }
 
-            return $"Helpers: +{totalContribution:F1}% Mechanoid Shredding Speed ({helperComp.CurrentHelpers.Count} helpers)";
-        }
-    }
-    // since am useing 
-    public class StatPart_HelperSmeltingSpeed : StatPart
-    {
-        public StatPart_HelperSmeltingSpeed() { } // Ensure this constructor exists
-        public override void TransformValue(StatRequest req, ref float val)
-        {
-            if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
+    //        return $"Helpers: +{totalContribution:F1}% Mechanoid Shredding Speed ({helperComp.CurrentHelpers.Count} helpers)";
+    //    }
+    //}
+    //// since am useing 
+    //public class StatPart_HelperSmeltingSpeed : StatPart
+    //{
+    //    public StatPart_HelperSmeltingSpeed() { } // Ensure this constructor exists
+    //    public override void TransformValue(StatRequest req, ref float val)
+    //    {
+    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return;
 
-            var helperComp = pawn.GetHelperComponent();
-            helperComp?.ValidateHelpers();
-            if (helperComp == null || !helperComp.IsBeingHelped) return;
+    //        var helperComp = pawn.GetHelperComponent();
+    //        helperComp?.ValidateHelpers();
+    //        if (helperComp == null || !helperComp.IsBeingHelped) return;
 
-            float totalContribution = 0f;
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Crafting")).Level;
-                int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                float contributionFactor = 0.5f + (helpingSkill / 40f);
-                totalContribution += helperStat * contributionFactor;
+    //        float totalContribution = 0f;
+    //        foreach (var helper in helperComp.CurrentHelpers)
+    //        {
+    //            float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Crafting")).Level;
+    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
+    //            totalContribution += helperStat * contributionFactor;
 
-                DebugHelpers.DebugLog("StatPart_HelperSmeltingSpeed", $"{helper.Name} contributed {helperStat * contributionFactor:F2} to SmeltingSpeed.");
-            }
+    //            DebugHelpers.DebugLog("StatPart_HelperSmeltingSpeed", $"{helper.Name} contributed {helperStat * contributionFactor:F2} to SmeltingSpeed.");
+    //        }
 
-            val += totalContribution;
-            DebugHelpers.DebugLog("StatPart_HelperSmeltingSpeed", $"Adjusted SmeltingSpeed for {pawn.Name}: {val}");
-        }
+    //        val += totalContribution;
+    //        DebugHelpers.DebugLog("StatPart_HelperSmeltingSpeed", $"Adjusted SmeltingSpeed for {pawn.Name}: {val}");
+    //    }
 
-        public override string ExplanationPart(StatRequest req)
-        {
-            if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
+    //    public override string ExplanationPart(StatRequest req)
+    //    {
+    //        if (!req.HasThing || !(req.Thing is Pawn pawn)) return null;
 
-            var helperComp = pawn.GetHelperComponent();
-            helperComp?.ValidateHelpers();
-            if (helperComp == null || !helperComp.IsBeingHelped) return null;
+    //        var helperComp = pawn.GetHelperComponent();
+    //        helperComp?.ValidateHelpers();
+    //        if (helperComp == null || !helperComp.IsBeingHelped) return null;
 
-            float totalContribution = 0f;
-            foreach (var helper in helperComp.CurrentHelpers)
-            {
-                float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Crafting")).Level;
-                int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
-                float contributionFactor = 0.5f + (helpingSkill / 40f);
-                totalContribution += helperStat * contributionFactor;
-            }
+    //        float totalContribution = 0f;
+    //        foreach (var helper in helperComp.CurrentHelpers)
+    //        {
+    //            float helperStat = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Crafting")).Level;
+    //            int helpingSkill = helper.skills.GetSkill(DefDatabase<SkillDef>.GetNamed("Helping")).Level;
+    //            float contributionFactor = 0.5f + (helpingSkill / 40f);
+    //            totalContribution += helperStat * contributionFactor;
+    //        }
 
-            return $"Helpers: +{totalContribution:F1}% Smelting Speed ({helperComp.CurrentHelpers.Count} helpers)";
-        }
-    }
+    //        return $"Helpers: +{totalContribution:F1}% Smelting Speed ({helperComp.CurrentHelpers.Count} helpers)";
+    //    }
+    //}
 }
 
 

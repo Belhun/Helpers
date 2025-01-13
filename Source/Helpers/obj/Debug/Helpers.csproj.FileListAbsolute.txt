@@ -4,3 +4,4 @@ D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\1.5\Assemblies\Helpers.dl
 D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\Source\Helpers\obj\Debug\Helpers.dll
 D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\1.5\Assemblies\Helpers.pdb
 D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\Source\Helpers\obj\Debug\Helpers.pdb
+D:\SteamLibrary\steamapps\common\RimWorld\Mods\Helpers\Source\Helpers\obj\Debug\Helpers.csproj.Up2Date
